@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run build
+      - name: Smoke-Test (Server startet & beendet sauber)
+        run: timeout 5 node dist/index.js < /dev/null; test $? -eq 124 -o $? -eq 0
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker-Image bauen (Standalone-Variante)
+        run: docker build --build-arg BUILD_FROM=node:20-alpine -t theboringmcp:ci .

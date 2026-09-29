@@ -1,0 +1,50 @@
+# Eigenständiger Betrieb von TheBoringMCP als Docker-Container (unabhängig
+# vom Home-Assistant-Add-on), z.B. direkt auf der NAS neben Portainer & Co.
+# Start: docker compose up -d --build
+#
+# Danach ist der MCP-Server per Streamable-HTTP unter
+# http://<host>:17820/ erreichbar (Header: Authorization: Bearer <MCP_HTTP_TOKEN>).
+#
+# Absicht: keine .env-Datei nötig – Werte werden direkt unten eingetragen.
+services:
+  theboringmcp:
+    build:
+      context: .
+      args:
+        BUILD_FROM: node:20-alpine
+    container_name: theboringmcp
+    restart: unless-stopped
+    ports:
+      - "17820:17820"
+    environment:
+      TRANSPORT: "http"
+      PORT: "17820"
+      MCP_HTTP_TOKEN: "CHANGE_ME"
+      READ_ONLY: "false"
+
+      HA_URL: "http://192.168.1.11:8123"
+      HA_TOKEN: "CHANGE_ME"
+
+      PORTAINER_URL: "https://192.168.1.11:9444"
+      PORTAINER_API_KEY: "CHANGE_ME"
+      # true, solange Portainer ein selbstsigniertes TLS-Zertifikat nutzt (Standard im Heimnetz);
+      # auf "false" setzen, sobald ein gültiges/vertrauenswürdiges Zertifikat vorliegt.
+      PORTAINER_INSECURE_TLS: "true"
+
+      SONARR_URL: "http://192.168.1.5:8989"
+      SONARR_API_KEY: "CHANGE_ME"
+
+      RADARR_URL: "http://192.168.1.5:7878"
+      RADARR_API_KEY: "CHANGE_ME"
+
+      SABNZBD_URL: "http://192.168.1.5:6554"
+      SABNZBD_API_KEY: "CHANGE_ME"
+
+      JELLYFIN_URL: "http://192.168.1.5:8096"
+      JELLYFIN_API_KEY: "CHANGE_ME"
+
+      GITHUB_TOKEN: "CHANGE_ME"
+      # GITHUB_API_URL: "https://github.example.com/api/v3"  # nur für GitHub Enterprise Server
+
+      PLEX_URL: "http://192.168.1.5:32400"
+      PLEX_TOKEN: "CHANGE_ME"

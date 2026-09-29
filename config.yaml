@@ -1,0 +1,62 @@
+name: "TheBoringMCP"
+version: "1.0.0"
+slug: "theboringmcp"
+description: "Ein MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub"
+url: "https://github.com/theboringalex/TheBoringMCP"
+icon: true
+logo: true
+arch:
+  - aarch64
+  - amd64
+  - armv7
+init: false
+startup: application
+boot: auto
+homeassistant_api: true
+hassio_api: true
+ingress: false
+host_network: false
+ports:
+  17820/tcp: 17820
+ports_description:
+  17820/tcp: "MCP Streamable-HTTP-Endpunkt (Bearer-Token via mcp_http_token)"
+options:
+  mcp_http_token: ""
+  ha_url: ""
+  ha_token: ""
+  portainer_url: ""
+  portainer_api_key: ""
+  portainer_insecure_tls: true
+  sonarr_url: ""
+  sonarr_api_key: ""
+  radarr_url: ""
+  radarr_api_key: ""
+  sabnzbd_url: ""
+  sabnzbd_api_key: ""
+  jellyfin_url: ""
+  jellyfin_api_key: ""
+  github_token: ""
+  github_api_url: ""
+  plex_url: ""
+  plex_token: ""
+  read_only: false
+schema:
+  mcp_http_token: "str"
+  ha_url: "str?"
+  ha_token: "str?"
+  portainer_url: "str?"
+  portainer_api_key: "str?"
+  portainer_insecure_tls: "bool"
+  sonarr_url: "str?"
+  sonarr_api_key: "str?"
+  radarr_url: "str?"
+  radarr_api_key: "str?"
+  sabnzbd_url: "str?"
+  sabnzbd_api_key: "str?"
+  jellyfin_url: "str?"
+  jellyfin_api_key: "str?"
+  github_token: "str?"
+  github_api_url: "str?"
+  plex_url: "str?"
+  plex_token: "str?"
+  read_only: "bool"

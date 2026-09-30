@@ -195,6 +195,70 @@ export function registerRadarrTools(server: McpServer, client: RadarrClient, rea
     }
   });
 
+  server.tool("radarr_get_movie", "Vollständiges Film-Objekt eines einzelnen Films abrufen (z.B. um es vor radarr_update_movie zu bearbeiten).", { movie_id: z.number() }, async ({ movie_id }) => {
+    try {
+      return ok(await client.getMovie(movie_id));
+    } catch (e) {
+      return fail(e);
+    }
+  });
+
+  server.tool(
+    "radarr_update_movie",
+    "Ein bestehendes Film-Objekt aktualisieren (PUT /movie/{id}). Erwartet das vollständige, zuvor per radarr_get_movie geholte und angepasste Objekt.",
+    { movie_id: z.number(), movie: z.record(z.unknown()) },
+    async ({ movie_id, movie }) => {
+      if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
+      try {
+        return ok(await client.updateMovie(movie_id, movie));
+      } catch (e) {
+        return fail(e);
+      }
+    },
+  );
+
+  server.tool(
+    "radarr_bulk_edit_movies",
+    "Mehrere Filme gleichzeitig bearbeiten (z.B. Root-Ordner-Migration nach einer NAS-Umstellung). move_files=false lässt nur den DB-Pfad umziehen, ohne Dateien zu verschieben - sinnvoll, wenn die Dateien physisch bereits am Zielordner liegen.",
+    {
+      movie_ids: z.array(z.number()),
+      root_folder_path: z.string().optional(),
+      quality_profile_id: z.number().optional(),
+      monitored: z.boolean().optional(),
+      move_files: z.boolean().optional(),
+      minimum_availability: z.string().optional(),
+      tags: z.array(z.number()).optional(),
+      apply_tags: z.enum(["add", "remove", "replace"]).optional(),
+    },
+    async ({ movie_ids, root_folder_path, quality_profile_id, monitored, move_files, minimum_availability, tags, apply_tags }) => {
+      if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
+      try {
+        return ok(
+          await client.bulkEditMovies(movie_ids, {
+            rootFolderPath: root_folder_path,
+            qualityProfileId: quality_profile_id,
+            monitored,
+            moveFiles: move_files,
+            minimumAvailability: minimum_availability,
+            tags,
+            applyTags: apply_tags,
+          }),
+        );
+      } catch (e) {
+        return fail(e);
+      }
+    },
+  );
+
+  server.tool("radarr_rescan_movie", "Den Film-Ordner eines Films neu einlesen (Command RescanMovie) - z.B. nach einer Pfad-Korrektur, um bereits vorhandene Dateien zu erkennen.", { movie_id: z.number() }, async ({ movie_id }) => {
+    if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
+    try {
+      return ok(await client.rescanMovie(movie_id));
+    } catch (e) {
+      return fail(e);
+    }
+  });
+
   server.tool("radarr_get_root_folders", "Konfigurierte Root-Ordner abrufen.", {}, async () => {
     try {
       return ok(await client.getRootFolders());

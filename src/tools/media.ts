@@ -111,64 +111,6 @@ export function registerSonarrTools(server: McpServer, client: SonarrClient, rea
       return fail(e);
     }
   });
-
-  server.tool("sonarr_get_languages", "Verfügbare Sprachen abrufen (für das 'language'-Feld eines Qualitätsprofils, Sonarr v4).", {}, async () => {
-    try {
-      return ok(await client.getLanguages());
-    } catch (e) {
-      return fail(e);
-    }
-  });
-
-  server.tool("sonarr_get_custom_formats", "Konfigurierte Custom Formats abrufen.", {}, async () => {
-    try {
-      return ok(await client.getCustomFormats());
-    } catch (e) {
-      return fail(e);
-    }
-  });
-
-  server.tool(
-    "sonarr_create_custom_format",
-    "Ein neues Custom Format anlegen (z.B. um Staffelpakete per ReleaseTypeSpecification zu bevorzugen). Objekt-Form: { name, includeCustomFormatWhenRenaming, specifications: [{ name, implementation, negate, required, fields: [{ name, value }] }] }.",
-    { custom_format: z.record(z.unknown()) },
-    async ({ custom_format }) => {
-      if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
-      try {
-        return ok(await client.createCustomFormat(custom_format));
-      } catch (e) {
-        return fail(e);
-      }
-    },
-  );
-
-  server.tool(
-    "sonarr_create_quality_profile",
-    "Ein neues Qualitätsprofil anlegen. Nutze vorher sonarr_get_quality_profiles (als Vorlage für 'items'), sonarr_get_languages (für das 'language'-Feld) und ggf. sonarr_get_custom_formats/sonarr_create_custom_format (für 'formatItems'). Objekt-Form wie von sonarr_get_quality_profiles zurückgegeben, ohne 'id'.",
-    { profile: z.record(z.unknown()) },
-    async ({ profile }) => {
-      if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
-      try {
-        return ok(await client.createQualityProfile(profile));
-      } catch (e) {
-        return fail(e);
-      }
-    },
-  );
-
-  server.tool(
-    "sonarr_update_quality_profile",
-    "Ein bestehendes Qualitätsprofil aktualisieren (vollständiges Objekt, inkl. 'id').",
-    { profile_id: z.number(), profile: z.record(z.unknown()) },
-    async ({ profile_id, profile }) => {
-      if (readOnly) return fail("Server läuft im READ_ONLY-Modus.");
-      try {
-        return ok(await client.updateQualityProfile(profile_id, profile));
-      } catch (e) {
-        return fail(e);
-      }
-    },
-  );
 }
 
 export function registerRadarrTools(server: McpServer, client: RadarrClient, readOnly: boolean) {

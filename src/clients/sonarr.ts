@@ -63,4 +63,29 @@ export class SonarrClient {
   getQualityProfiles() {
     return this.api<Array<Record<string, unknown>>>("/qualityprofile");
   }
+
+  /**
+   * Verfügbare Sprachen abrufen (Sonarr v4: Sprache ist ein direktes Feld
+   * am Qualitätsprofil, "language": {id, name} – keine separaten
+   * Language-Profiles mehr wie in Sonarr v3).
+   */
+  getLanguages() {
+    return this.api<Array<{ id: number; name: string; nameLower?: string }>>("/language");
+  }
+
+  getCustomFormats() {
+    return this.api<Array<Record<string, unknown>>>("/customformat");
+  }
+
+  createCustomFormat(customFormat: Record<string, unknown>) {
+    return this.api("/customformat", { method: "POST", body: customFormat });
+  }
+
+  createQualityProfile(profile: Record<string, unknown>) {
+    return this.api("/qualityprofile", { method: "POST", body: profile });
+  }
+
+  updateQualityProfile(id: number, profile: Record<string, unknown>) {
+    return this.api(`/qualityprofile/${id}`, { method: "PUT", body: profile });
+  }
 }

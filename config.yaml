@@ -1,10 +1,8 @@
 name: "TheBoringMCP"
-version: "1.0.0"
+version: "0.4.1"
 slug: "theboringmcp"
 description: "Ein MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub"
 url: "https://github.com/theboringalex/TheBoringMCP"
-icon: true
-logo: true
 arch:
   - aarch64
   - amd64
@@ -26,7 +24,6 @@ options:
   ha_token: ""
   portainer_url: ""
   portainer_api_key: ""
-  portainer_insecure_tls: true
   sonarr_url: ""
   sonarr_api_key: ""
   radarr_url: ""
@@ -46,7 +43,6 @@ schema:
   ha_token: "str?"
   portainer_url: "str?"
   portainer_api_key: "str?"
-  portainer_insecure_tls: "bool"
   sonarr_url: "str?"
   sonarr_api_key: "str?"
   radarr_url: "str?"

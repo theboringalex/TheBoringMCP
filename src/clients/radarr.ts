@@ -56,6 +56,31 @@ export class RadarrClient {
     return this.api("/command", { method: "POST", body: { name: "MoviesSearch", movieIds: [movieId] } });
   }
 
+  rescanMovie(movieId: number) {
+    return this.api("/command", { method: "POST", body: { name: "RescanMovie", movieIds: [movieId] } });
+  }
+
+  /**
+   * Massenbearbeitung mehrerer Filme (z.B. Root-Ordner-Migration).
+   * moveFiles=false lässt die DB-Pfade umziehen, ohne Dateien tatsächlich zu
+   * verschieben – sinnvoll, wenn die Dateien physisch schon am Zielort liegen
+   * (z.B. nach einer NAS-Mount-Restrukturierung).
+   */
+  bulkEditMovies(
+    movieIds: number[],
+    changes: {
+      rootFolderPath?: string;
+      qualityProfileId?: number;
+      monitored?: boolean;
+      moveFiles?: boolean;
+      minimumAvailability?: string;
+      tags?: number[];
+      applyTags?: "add" | "remove" | "replace";
+    },
+  ) {
+    return this.api("/movie/editor", { method: "PUT", body: { movieIds, ...changes } });
+  }
+
   getRootFolders() {
     return this.api<Array<Record<string, unknown>>>("/rootfolder");
   }

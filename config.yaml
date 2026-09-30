@@ -1,5 +1,5 @@
 name: "TheBoringMCP"
-version: "1.1.0"
+version: "1.2.0"
 slug: "theboringmcp"
 description: "Ein MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub"
 url: "https://github.com/theboringalex/TheBoringMCP"

@@ -7,7 +7,15 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
-## [0.4.1] - 2026-09-30
+## [1.1.0] - 2026-09-30
+
+### Hinweis
+- Versionssprung von 0.4.1 auf 1.1.0: Der laufende Add-on-Container war
+  (unabhängig von diesem Changelog) bereits mit `io.hass.version: "1.0.0"`
+  markiert. Home Assistant Supervisor vergleicht beim Update ausschließlich
+  Versionsnummern und lehnt jede numerisch niedrigere Version als
+  vermeintliches Downgrade ab – daher sprang die Versionierung hier direkt
+  auf 1.1.0, um wieder oberhalb der installierten Version zu liegen.
 
 ### Hinzugefügt
 - **Radarr-Movie-Editor-Tools**: `radarr_get_movie`, `radarr_update_movie`
@@ -231,7 +239,8 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Eigenständiges `docker-compose.yml` für den Betrieb ohne Home Assistant.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
-[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v1.1.0
 [0.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.9...v0.2.0
 [0.1.9]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.8...v0.1.9

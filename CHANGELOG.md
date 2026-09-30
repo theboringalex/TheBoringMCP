@@ -7,28 +7,6 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
-## [1.2.0] - 2026-09-30
-
-### Hinzugefügt
-- **Sonarr-Qualitätsprofil-Tools**: `sonarr_get_languages` (GET `/language`),
-  `sonarr_get_custom_formats` (GET `/customformat`),
-  `sonarr_create_custom_format` (POST `/customformat`),
-  `sonarr_create_quality_profile` (POST `/qualityprofile`) und
-  `sonarr_update_quality_profile` (PUT `/qualityprofile/{id}`). Grund:
-  Erstellung eines deutschsprachigen SD+HD-Profils mit Staffelpaket-Bonus
-  (Custom Format `ReleaseTypeSpecification`, Wert 3 = Season Pack) war
-  bisher nicht möglich, da nur Lese-Tools für Sonarr-Profile existierten.
-  Sonarr v4 hat keine separaten Language-Profiles mehr – Sprache ist ein
-  direktes Feld `language` am Qualitätsprofil.
-
-### Behoben
-- **`package.json`**: Abhängigkeit `undici` (^6.21.0) war durch einen
-  lokal veralteten Checkout beim v1.1.0-Versionssprung versehentlich aus
-  den Dependencies entfernt worden, obwohl `src/clients/http.ts` sie für
-  den Portainer-TLS-Bypass (selbstsigniertes Zertifikat, `insecureTLS`)
-  bereits zur Laufzeit importiert. Das hätte den Add-on-Docker-Build mit
-  `TS2307: Cannot find module 'undici'` brechen können. Wiederhergestellt.
-
 ## [1.1.0] - 2026-09-30
 
 ### Hinweis
@@ -261,8 +239,7 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Eigenständiges `docker-compose.yml` für den Betrieb ohne Home Assistant.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
-[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...v1.2.0
+[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...HEAD
 [1.1.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v1.1.0
 [0.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.9...v0.2.0

@@ -18,7 +18,7 @@ import { registerSonarrTools, registerRadarrTools, registerSabnzbdTools, registe
 import { registerGithubTools } from "./tools/github.js";
 import { registerPlexTools } from "./tools/plex.js";
 
-const VERSION = "0.4.1";
+const VERSION = "1.1.0";
 
 type Config = ReturnType<typeof loadConfig>;
 

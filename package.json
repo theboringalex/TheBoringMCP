@@ -1,6 +1,6 @@
 {
   "name": "theboringmcp",
-  "version": "0.4.1",
+  "version": "1.1.0",
   "description": "Ein einziger MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin und Plex – für Claude & Co.",
   "type": "module",
   "main": "dist/index.js",

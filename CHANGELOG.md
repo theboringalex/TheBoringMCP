@@ -7,42 +7,16 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
-## [0.4.2] - 2026-09-29
+## [0.4.1] - 2026-09-30
 
-### Behoben
-- **Portainer `fetch failed`**: Node's globales `fetch` lehnte Portainer's
-  selbstsigniertes TLS-Zertifikat (z.B. `https://192.168.1.5:9444`) ab, alle
-  `portainer_*`-Tools scheiterten dadurch unabhängig von Auth/Erreichbarkeit.
-  `src/clients/http.ts` unterstützt jetzt eine `insecureTLS`-Option pro
-  Request (über einen gecachten `undici`-`Agent` mit
-  `rejectUnauthorized: false`), die `PortainerClient` für alle Aufrufe setzt.
-- Neue Option `portainer_insecure_tls` (Add-on) bzw. `PORTAINER_INSECURE_TLS`
-  (Docker/env), Standard `true`. Auf `false` umstellen, sobald Portainer ein
-  gültiges/vertrauenswürdiges Zertifikat verwendet.
-- Neue Abhängigkeit `undici` (von Node intern für `fetch` genutzt, hier
-  explizit für den `Agent`-Zugriff eingebunden).
-
-## [0.4.1] - 2026-09-29
-
-### Behoben
-- **100-Tool-Limit von Claude-Connectoren**: Mit den ~80 neuen
-  Home-Assistant-Tools aus 0.4.0 kam ein einzelner Server mit allen
-  Diensten auf ~170 Tools zusammen – Claude-Connectoren zeigen aber nur
-  die ersten 100 Tools eines MCP-Servers an, der Rest wurde
-  kommentarlos abgeschnitten (Sonarr/Radarr/SABnzbd/Jellyfin/GitHub/Plex
-  wären bei aktiviertem HA+Portainer komplett unsichtbar geworden).
-- `index.ts`/`http-server.ts`: der HTTP-Modus bietet jetzt zwei
-  Tool-Gruppen über zwei Pfade an derselben Adresse/demselben Token an:
-  `/` registriert nur Home Assistant (~80 Tools), `/rest` registriert
-  alle anderen Dienste (Portainer, Sonarr, Radarr, SABnzbd, Jellyfin,
-  Plex, GitHub, ~90 Tools). Beide Gruppen bleiben einzeln unter dem
-  Limit. In Claude entsprechend als **zwei separate Connectoren**
-  einrichten (README/DOCS aktualisiert). Der stdio-Modus (Claude
-  Desktop/Code, lokal) ist unverändert ein einzelner Server mit allen
-  Diensten, da dort kein vergleichbares Limit gilt.
-- Dockerfile-Label `io.hass.version`/`io.hass.description` waren in
-  0.4.0 nicht mitaktualisiert worden (zeigten noch 0.3.0 bzw. die
-  Dienstliste ohne Plex/GitHub) – nachgezogen.
+### Hinzugefügt
+- **Radarr-Movie-Editor-Tools**: `radarr_get_movie`, `radarr_update_movie`
+  (PUT `/movie/{id}`), `radarr_bulk_edit_movies` (PUT `/movie/editor` –
+  Root-Ordner/Qualitätsprofil/Monitored/Tags für mehrere Filme gleichzeitig
+  ändern, mit `move_files`-Schalter) und `radarr_rescan_movie` (Command
+  `RescanMovie`). Grund: nach einer NAS-Mount-Restrukturierung zeigten
+  einzelne Filme in Radarrs eigener Datenbank noch auf einen alten,
+  nicht mehr gemounteten Root-Ordner – dafür gab es bisher kein Tool.
 
 ## [0.4.0] - 2026-09-29
 
@@ -257,10 +231,7 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Eigenständiges `docker-compose.yml` für den Betrieb ohne Home Assistant.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
-[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.2...HEAD
-[0.4.2]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.1...v0.4.2
-[0.4.1]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.3.0...v0.4.0
+[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v0.3.0...HEAD
 [0.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.9...v0.2.0
 [0.1.9]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.8...v0.1.9

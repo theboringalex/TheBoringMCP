@@ -7,6 +7,10 @@ Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub – nutzbar direkt aus Claude
 Gebaut, weil der Alltag im HomeLab zu langweilig sein sollte, um sich noch
 selbst darum zu kümmern. Daher der Name.
 
+[![Open your Home Assistant instance and show the add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Ftheboringalex%2FTheBoringMCP)
+
+<a href="https://www.buymeacoffee.com/theboringit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 ## Features
 
 | Dienst | Tool-Präfix | Beispiele |

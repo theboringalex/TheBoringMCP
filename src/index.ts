@@ -13,6 +13,7 @@ import { JellyfinClient } from "./clients/jellyfin.js";
 import { GithubClient } from "./clients/github.js";
 import { PlexClient } from "./clients/plex.js";
 import { registerHomeAssistantTools } from "./tools/homeassistant.js";
+import { registerHomeAssistantFlowTools } from "./tools/homeassistant-flow.js";
 import { registerPortainerTools } from "./tools/portainer.js";
 import { registerSonarrTools, registerRadarrTools, registerSabnzbdTools, registerJellyfinTools } from "./tools/media.js";
 import { registerGithubTools } from "./tools/github.js";
@@ -39,12 +40,9 @@ function buildMcpServer(config: Config, { log = false }: { log?: boolean } = {})
   const registered: string[] = [];
 
   if (config.homeAssistant) {
-    registerHomeAssistantTools(
-      server,
-      new HomeAssistantClient(config.homeAssistant),
-      config.readOnly,
-      new HomeAssistantWsClient(config.homeAssistant),
-    );
+    const haWs = new HomeAssistantWsClient(config.homeAssistant);
+    registerHomeAssistantTools(server, new HomeAssistantClient(config.homeAssistant), config.readOnly, haWs);
+    registerHomeAssistantFlowTools(server, config.homeAssistant, config.readOnly, haWs);
     registered.push("Home Assistant");
   }
 

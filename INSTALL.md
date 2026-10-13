@@ -37,9 +37,9 @@ needed if you want to use the corresponding features.
 
 An MCP server running on your Home Assistant NAS/box that gives Claude
 full access to your HomeLab: Home Assistant itself, Portainer (Docker),
-Sonarr, Radarr, SABnzbd, Jellyfin, Plex, and GitHub. You can then simply
-ask Claude things like: *"Restart the Jellyfin container"*, *"Add series
-XY to Sonarr"*, or *"Create a new Home Assistant automation that dims the
+Jellyfin, Plex, and GitHub. You can then simply
+ask Claude things like: *"Restart the Jellyfin container"*, *"Stop the
+unused Portainer stack"*, or *"Create a new Home Assistant automation that dims the
 lights in the evening"* – Claude handles it directly.
 
 ### 2. Prerequisites
@@ -50,8 +50,8 @@ lights in the evening"* – Claude handles it directly.
   [Docker route in the README](README.md#2-as-a-standalone-docker-container)
   instead).
 - Access to the Home Assistant web UI with an admin account.
-- For the services you want to connect (Portainer, Sonarr, Radarr,
-  SABnzbd, Jellyfin, Plex, GitHub): these should already be running, and
+- For the services you want to connect (Portainer,
+  Jellyfin, Plex, GitHub): these should already be running, and
   you'll need a GitHub account. Every service is optional – you can start
   with just Home Assistant and add more later.
 - A Claude account on [claude.ai](https://claude.ai) or Claude Desktop
@@ -143,9 +143,6 @@ the add-on log at startup).
 | `ha_url`, `ha_token` | No | Only needed for an **external** Home Assistant instance. If the add-on runs on the same HA instance (the normal case), please **leave empty** – access then happens automatically via the Supervisor. |
 | `portainer_url`, `portainer_api_key` | No | Portainer URL and API key, see step 7. |
 | `portainer_insecure_tls` | No | Default `true` (see the note above on self-signed certificates). |
-| `sonarr_url`, `sonarr_api_key` | No | See step 7. |
-| `radarr_url`, `radarr_api_key` | No | See step 7. |
-| `sabnzbd_url`, `sabnzbd_api_key` | No | See step 7. |
 | `jellyfin_url`, `jellyfin_api_key` | No | See step 7. |
 | `plex_url`, `plex_token` | No | See step 7. |
 | `github_token`, `github_api_url` | No | See step 7. `github_api_url` is only needed for GitHub Enterprise Server. |
@@ -157,9 +154,6 @@ Only fill in the services you actually want to connect.
 - **Portainer**: In Portainer, top right, click your username →
   **My account** → **Access tokens** → **Add access token** → give it a
   name → copy the generated token (it's only shown once!).
-- **Sonarr / Radarr / SABnzbd**: In the respective app under
-  **Settings → General** (for SABnzbd: **Config → General**) the API key
-  is shown directly.
 - **Jellyfin**: **Dashboard → API Keys → +** → give it a name → copy the
   key.
 - **Plex**: Open any media item in the Plex web app → "..." (three dots)
@@ -195,7 +189,7 @@ both using the same token:
 | Connector name (your choice) | URL | Contains |
 |---|---|---|
 | TheBoringMCP – Home Assistant | `http://<home-assistant-ip>:17820/` | only Home Assistant |
-| TheBoringMCP – Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex, GitHub |
+| TheBoringMCP – Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub |
 
 Here's how to set up both (in [claude.ai](https://claude.ai) or Claude
 Desktop):
@@ -276,9 +270,9 @@ willst.
 
 Einen MCP-Server, der auf deiner Home-Assistant-NAS/Box läuft und Claude
 vollen Zugriff auf dein HomeLab gibt: Home Assistant selbst, Portainer
-(Docker), Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub. Du kannst
-Claude danach z.B. bitten: *"Starte den Jellyfin-Container neu"*, *"Füge
-die Serie XY zu Sonarr hinzu"* oder *"Erstelle eine neue Home-Assistant-
+(Docker), Jellyfin, Plex und GitHub. Du kannst
+Claude danach z.B. bitten: *"Starte den Jellyfin-Container neu"*, *"Stoppe
+den ungenutzten Portainer-Stack"* oder *"Erstelle eine neue Home-Assistant-
 Automation, die abends das Licht dimmt"* – Claude erledigt es direkt.
 
 ### 2. Voraussetzungen
@@ -289,8 +283,8 @@ Automation, die abends das Licht dimmt"* – Claude erledigt es direkt.
   [Docker-Weg in der README](README.md#2-als-eigenständiger-docker-container)
   nutzen).
 - Zugriff auf die Home-Assistant-Weboberfläche mit einem Admin-Account.
-- Für die Dienste, die du anbinden willst (Portainer, Sonarr, Radarr,
-  SABnzbd, Jellyfin, Plex, GitHub): diese sollten bereits laufen bzw. ein
+- Für die Dienste, die du anbinden willst (Portainer,
+  Jellyfin, Plex, GitHub): diese sollten bereits laufen bzw. ein
   GitHub-Account vorhanden sein. Jeder Dienst ist optional – du kannst
   auch nur mit Home Assistant starten und später mehr hinzufügen.
 - Ein Claude-Account mit [claude.ai](https://claude.ai) oder Claude
@@ -382,9 +376,6 @@ Zeilen einfach leer lassen, der zugehörige Dienst wird dann automatisch
 | `ha_url`, `ha_token` | Nein | Nur nötig für eine **externe** Home-Assistant-Instanz. Läuft das Add-on auf derselben HA-Instanz (Normalfall), bitte **leer lassen** – der Zugriff erfolgt dann automatisch über den Supervisor. |
 | `portainer_url`, `portainer_api_key` | Nein | Portainer-URL und API-Key, siehe Schritt 7. |
 | `portainer_insecure_tls` | Nein | Standard `true` (siehe Hinweis oben zu selbstsignierten Zertifikaten). |
-| `sonarr_url`, `sonarr_api_key` | Nein | Siehe Schritt 7. |
-| `radarr_url`, `radarr_api_key` | Nein | Siehe Schritt 7. |
-| `sabnzbd_url`, `sabnzbd_api_key` | Nein | Siehe Schritt 7. |
 | `jellyfin_url`, `jellyfin_api_key` | Nein | Siehe Schritt 7. |
 | `plex_url`, `plex_token` | Nein | Siehe Schritt 7. |
 | `github_token`, `github_api_url` | Nein | Siehe Schritt 7. `github_api_url` nur für GitHub Enterprise Server nötig. |
@@ -396,9 +387,6 @@ Nur die Dienste ausfüllen, die du wirklich anbinden willst.
 - **Portainer**: In Portainer oben rechts auf deinen Benutzernamen →
   **My account** → **Access tokens** → **Add access token** → Namen
   vergeben → erzeugten Token kopieren (wird nur einmal angezeigt!).
-- **Sonarr / Radarr / SABnzbd**: In der jeweiligen App unter
-  **Settings → General** (bei SABnzbd: **Config → General**) steht der
-  API-Key direkt sichtbar.
 - **Jellyfin**: **Dashboard → API Keys → +** → Namen vergeben → Key
   kopieren.
 - **Plex**: Ein beliebiges Medienelement in der Plex-Web-App öffnen →
@@ -434,7 +422,7 @@ werden – beide mit demselben Token:
 | Connector-Name (frei wählbar) | URL | Enthält |
 |---|---|---|
 | TheBoringMCP – Home Assistant | `http://<home-assistant-ip>:17820/` | nur Home Assistant |
-| TheBoringMCP – Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex, GitHub |
+| TheBoringMCP – Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub |
 
 So richtest du beide ein (in [claude.ai](https://claude.ai) oder Claude
 Desktop):

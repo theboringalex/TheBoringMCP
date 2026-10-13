@@ -1,7 +1,7 @@
 {
   "name": "theboringmcp",
-  "version": "1.2.0",
-  "description": "Ein einziger MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin und Plex – für Claude & Co.",
+  "version": "1.3.0",
+  "description": "Ein MCP-Server mit vollem Zugriff auf Home Assistant und Portainer (plus optional Jellyfin, Plex und GitHub) – für Claude & Co.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -18,9 +18,6 @@
     "model-context-protocol",
     "home-assistant",
     "portainer",
-    "sonarr",
-    "radarr",
-    "sabnzbd",
     "jellyfin",
     "plex",
     "homelab",

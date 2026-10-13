@@ -21,9 +21,6 @@ access** to the following systems:
 - **Portainer** – environments, containers (create, start, stop, restart,
   delete), images (pull, delete), stacks (create, update, delete
   Compose).
-- **Sonarr / Radarr** – search, add, and delete series/movies, manage the
-  queue, trigger manual searches.
-- **SABnzbd** – queue & history, pause/resume, add downloads.
 - **Jellyfin** – browse the library, control sessions, trigger scans.
 - **Plex** – browse libraries, trigger scans, edit metadata, mark items as
   watched/unwatched, cancel playback sessions, empty trash, delete items.
@@ -47,8 +44,7 @@ example, the Portainer tools simply aren't offered.
    because Portainer usually uses a self-signed certificate on home
    networks – switch to `false` once a valid/trusted certificate is in
    place.
-3. **Sonarr/Radarr/SABnzbd/Jellyfin**: URL + API key from the respective
-   app's settings.
+3. **Jellyfin**: URL + API key from the app's settings (*Dashboard -> API Keys*).
 4. **GitHub**: enter a Personal Access Token (fine-grained, scoped to the
    desired repos, or classic with the `repo` scope) under `github_token`.
    `github_api_url` is only needed for GitHub Enterprise Server (default:
@@ -77,7 +73,7 @@ separate connectors** (both using the same token):
 | Connector | URL | Contains |
 |---|---|---|
 | TheBoringMCP-HA | `http://<home-assistant-ip>:17820/` | Home Assistant (~80 tools) |
-| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex, GitHub (~90 tools) |
+| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub (~55 tools) |
 
 For both: **Header**: `Authorization: Bearer <your mcp_http_token>`
 
@@ -108,9 +104,6 @@ Zugriff** auf folgende Systeme bekommt:
 - **Portainer** – Environments, Container (erstellen, starten, stoppen,
   neu starten, löschen), Images (pullen, löschen), Stacks (Compose anlegen,
   aktualisieren, löschen).
-- **Sonarr / Radarr** – Serien/Filme suchen, hinzufügen, löschen, Queue
-  verwalten, manuelle Suche anstoßen.
-- **SABnzbd** – Queue & Historie, pausieren/fortsetzen, Downloads hinzufügen.
 - **Jellyfin** – Bibliothek durchsuchen, Sessions steuern, Scans anstoßen.
 - **Plex** – Bibliotheken durchsuchen, Scans anstoßen, Metadaten bearbeiten,
   Elemente als angesehen/unangesehen markieren, Wiedergabe-Sessions
@@ -134,8 +127,8 @@ die Portainer-Tools einfach nicht angeboten.
    `portainer_insecure_tls` ist standardmäßig `true`, weil Portainer im
    Heimnetz meist ein selbstsigniertes Zertifikat nutzt – auf `false`
    umstellen, sobald ein gültiges/vertrauenswürdiges Zertifikat vorliegt.
-3. **Sonarr/Radarr/SABnzbd/Jellyfin**: jeweils URL + API-Key aus den
-   Einstellungen der jeweiligen App.
+3. **Jellyfin**: URL + API-Key aus den Einstellungen der App
+   (*Dashboard -> API Keys*).
 4. **GitHub**: einen Personal Access Token (fine-grained, mit Zugriff auf die
    gewünschten Repos, oder classic mit `repo`-Scope) unter `github_token`
    eintragen. `github_api_url` nur für GitHub Enterprise Server nötig
@@ -164,7 +157,7 @@ separate Connectoren** angelegt werden (beide mit demselben Token):
 | Connector | URL | Enthält |
 |---|---|---|
 | TheBoringMCP-HA | `http://<home-assistant-ip>:17820/` | Home Assistant (~80 Tools) |
-| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex, GitHub (~90 Tools) |
+| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub (~55 Tools) |
 
 Für beide: **Header**: `Authorization: Bearer <dein mcp_http_token>`
 

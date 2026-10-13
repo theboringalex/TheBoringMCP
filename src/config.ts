@@ -30,21 +30,6 @@ export interface PortainerConfig {
   insecureTls: boolean;
 }
 
-export interface SonarrConfig {
-  baseUrl: string;
-  apiKey: string;
-}
-
-export interface RadarrConfig {
-  baseUrl: string;
-  apiKey: string;
-}
-
-export interface SabnzbdConfig {
-  baseUrl: string;
-  apiKey: string;
-}
-
 export interface JellyfinConfig {
   baseUrl: string;
   apiKey: string;
@@ -65,9 +50,6 @@ export interface PlexConfig {
 export interface AppConfig {
   homeAssistant?: HomeAssistantConfig;
   portainer?: PortainerConfig;
-  sonarr?: SonarrConfig;
-  radarr?: RadarrConfig;
-  sabnzbd?: SabnzbdConfig;
   jellyfin?: JellyfinConfig;
   github?: GithubConfig;
   plex?: PlexConfig;
@@ -91,15 +73,6 @@ export function loadConfig(): AppConfig {
   const portainerApiKey = env("PORTAINER_API_KEY");
   const portainerUsername = env("PORTAINER_USERNAME");
   const portainerPassword = env("PORTAINER_PASSWORD");
-
-  const sonarrUrl = env("SONARR_URL");
-  const sonarrKey = env("SONARR_API_KEY");
-
-  const radarrUrl = env("RADARR_URL");
-  const radarrKey = env("RADARR_API_KEY");
-
-  const sabnzbdUrl = env("SABNZBD_URL");
-  const sabnzbdKey = env("SABNZBD_API_KEY");
 
   const jellyfinUrl = env("JELLYFIN_URL");
   const jellyfinKey = env("JELLYFIN_API_KEY");
@@ -126,18 +99,6 @@ export function loadConfig(): AppConfig {
       password: portainerPassword,
       insecureTls: env("PORTAINER_INSECURE_TLS") !== "false",
     };
-  }
-
-  if (sonarrUrl && sonarrKey) {
-    config.sonarr = { baseUrl: trimTrailingSlash(sonarrUrl), apiKey: sonarrKey };
-  }
-
-  if (radarrUrl && radarrKey) {
-    config.radarr = { baseUrl: trimTrailingSlash(radarrUrl), apiKey: radarrKey };
-  }
-
-  if (sabnzbdUrl && sabnzbdKey) {
-    config.sabnzbd = { baseUrl: trimTrailingSlash(sabnzbdUrl), apiKey: sabnzbdKey };
   }
 
   if (jellyfinUrl && jellyfinKey) {

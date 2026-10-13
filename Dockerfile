@@ -30,7 +30,7 @@ RUN chmod a+x /run.sh
 
 LABEL \
   io.hass.name="TheBoringMCP" \
-  io.hass.description="MCP-Server mit vollem Zugriff auf Home Assistant, Portainer, Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub" \
+  io.hass.description="MCP-Server mit vollem Zugriff auf Home Assistant und Portainer (plus optional Jellyfin, Plex und GitHub)" \
   io.hass.type="addon" \
   io.hass.version="1.0.0"
 

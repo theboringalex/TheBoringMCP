@@ -7,6 +7,26 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-13
+
+### Entfernt
+- **ARR-Anbindung komplett entfernt**: Sonarr, Radarr und SABnzbd werden nicht
+  mehr unterstützt. Gelöscht wurden die Clients (`src/clients/sonarr.ts`,
+  `radarr.ts`, `sabnzbd.ts`), die zugehörigen Tools (`sonarr_*`, `radarr_*`,
+  `sabnzbd_*`), die ENV-Variablen `SONARR_*`, `RADARR_*`, `SABNZBD_*` und die
+  Add-on-Optionen `sonarr_url`, `sonarr_api_key`, `radarr_url`,
+  `radarr_api_key`, `sabnzbd_url`, `sabnzbd_api_key`. Bereits gespeicherte
+  Werte dieser Optionen werden vom Supervisor beim Update einfach verworfen.
+- Der Server konzentriert sich auf Home Assistant (REST + WebSocket) und
+  Portainer mit vollem Zugriff; Jellyfin, Plex und GitHub bleiben optional
+  erhalten.
+
+### Behoben
+- `config.yaml`: Option `portainer_insecure_tls` (von `run.sh` gelesen) fehlte
+  in `options`/`schema` und wurde ergänzt (Standard: `true`).
+- `package.json`, `config.yaml` und `src/index.ts` nutzen wieder dieselbe
+  Versionsnummer.
+
 ## [1.1.0] - 2026-09-30
 
 ### Hinweis
@@ -239,7 +259,8 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Eigenständiges `docker-compose.yml` für den Betrieb ohne Home Assistant.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
-[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v1.1.0
 [0.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.1.9...v0.2.0

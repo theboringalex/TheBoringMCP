@@ -31,15 +31,6 @@ services:
       # auf "false" setzen, sobald ein gültiges/vertrauenswürdiges Zertifikat vorliegt.
       PORTAINER_INSECURE_TLS: "true"
 
-      SONARR_URL: "http://192.168.1.5:8989"
-      SONARR_API_KEY: "CHANGE_ME"
-
-      RADARR_URL: "http://192.168.1.5:7878"
-      RADARR_API_KEY: "CHANGE_ME"
-
-      SABNZBD_URL: "http://192.168.1.5:6554"
-      SABNZBD_API_KEY: "CHANGE_ME"
-
       JELLYFIN_URL: "http://192.168.1.5:8096"
       JELLYFIN_API_KEY: "CHANGE_ME"
 

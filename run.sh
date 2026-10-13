@@ -40,15 +40,6 @@ export PORTAINER_API_KEY="$(get_option portainer_api_key)"
 PORTAINER_INSECURE_TLS_OPT="$(get_option portainer_insecure_tls)"
 export PORTAINER_INSECURE_TLS="${PORTAINER_INSECURE_TLS_OPT:-true}"
 
-export SONARR_URL="$(get_option sonarr_url)"
-export SONARR_API_KEY="$(get_option sonarr_api_key)"
-
-export RADARR_URL="$(get_option radarr_url)"
-export RADARR_API_KEY="$(get_option radarr_api_key)"
-
-export SABNZBD_URL="$(get_option sabnzbd_url)"
-export SABNZBD_API_KEY="$(get_option sabnzbd_api_key)"
-
 export JELLYFIN_URL="$(get_option jellyfin_url)"
 export JELLYFIN_API_KEY="$(get_option jellyfin_api_key)"
 
@@ -63,7 +54,7 @@ export PORT=17820
 
 # Kurzstatus beim Start (keine Secrets, nur ob ein Wert gesetzt ist)
 present() { [ -n "$1" ] && echo "gesetzt" || echo "leer"; }
-echo "[TheBoringMCP add-on] Konfiguration: HA_URL=$(present "$HA_URL") PORTAINER_URL=$(present "$PORTAINER_URL") SONARR_URL=$(present "$SONARR_URL") RADARR_URL=$(present "$RADARR_URL") SABNZBD_URL=$(present "$SABNZBD_URL") JELLYFIN_URL=$(present "$JELLYFIN_URL") GITHUB_TOKEN=$(present "$GITHUB_TOKEN") PLEX_URL=$(present "$PLEX_URL")"
+echo "[TheBoringMCP add-on] Konfiguration: HA_URL=$(present "$HA_URL") PORTAINER_URL=$(present "$PORTAINER_URL") JELLYFIN_URL=$(present "$JELLYFIN_URL") GITHUB_TOKEN=$(present "$GITHUB_TOKEN") PLEX_URL=$(present "$PLEX_URL")"
 
 echo "[TheBoringMCP add-on] Starte MCP-Server auf Port ${PORT} ..."
 exec node /app/dist/index.js

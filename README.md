@@ -1,8 +1,8 @@
 # TheBoringMCP
 
 Ein einziger [MCP](https://modelcontextprotocol.io)-Server (Model Context
-Protocol) mit **vollem Zugriff** auf dein HomeLab: Home Assistant, Portainer,
-Sonarr, Radarr, SABnzbd, Jellyfin, Plex und GitHub – nutzbar direkt aus Claude heraus.
+Protocol) mit **vollem Zugriff** auf Home Assistant und Portainer – optional
+ergänzt um Jellyfin, Plex und GitHub – nutzbar direkt aus Claude heraus.
 
 Gebaut, weil der Alltag im HomeLab zu langweilig sein sollte, um sich noch
 selbst darum zu kümmern. Daher der Name.
@@ -17,9 +17,6 @@ selbst darum zu kümmern. Daher der Name.
 |---|---|---|
 | Home Assistant | `ha_*` | Zustände lesen/setzen, `ha_call_service` (jede Domain/jeder Service), Automationen/Skripte/Szenen anlegen & löschen, Core neu starten, History/Logbuch, Jinja-Templates rendern, **plus (seit 0.4.0) Registry-/Storage-Zugriff via WebSocket-API**: Areas/Floors/Labels/Categories, Geräte- & Entity-Registry, Helper (input_\*, counter, timer, schedule, zone, person, tag), Legacy-Gruppen, Dashboards & Resources, Kalender-Events, To-do-Listen, Config-Entries/Integrationen, Energie-Prefs, Assist-Pipelines, Automation-Traces, Bulk-Control über Area/Floor, Kamerabilder, Events, Backups, Blueprints, (best effort) HACS, Themes, ZHA/Z-Wave JS |
 | Portainer | `portainer_*` | Environments, Container erstellen/starten/stoppen/löschen, Images pullen/löschen, Compose-Stacks anlegen/aktualisieren/löschen |
-| Sonarr | `sonarr_*` | Serien suchen & hinzufügen, Queue verwalten, Kalender, manuelle Suche |
-| Radarr | `radarr_*` | Filme suchen & hinzufügen, Queue verwalten, Kalender, manuelle Suche, **seit 0.4.1** Massenbearbeitung (Root-Ordner/Qualitätsprofil/Tags) & Rescan |
-| SABnzbd | `sabnzbd_*` | Queue/Historie, pausieren/fortsetzen, Downloads hinzufügen |
 | Jellyfin | `jellyfin_*` | Bibliothek durchsuchen, Sessions steuern, Scans anstoßen |
 | Plex | `plex_*` | Bibliotheken durchsuchen, Scans anstoßen, Metadaten bearbeiten, als angesehen/unangesehen markieren, Sessions abbrechen, Elemente löschen |
 | GitHub | `github_*` | Repos prüfen/suchen/anlegen, Branches, Dateien lesen/anlegen/ändern/löschen, Commits, Issues & Pull Requests |
@@ -28,11 +25,14 @@ Jeder Dienst ist **einzeln optional** – fehlt die Konfiguration für einen
 Dienst, werden dessen Tools beim Start einfach nicht registriert (siehe
 Konsolen-Log beim Start).
 
+Seit Version 1.3.0 gibt es **keine Anbindung an Sonarr, Radarr und SABnzbd
+(ARR-Stack)** mehr; der Fokus liegt auf Home Assistant und Portainer.
+
 Referenz-Projekt für den Home-Assistant-Teil ist
 [homeassistant-ai/ha-mcp](https://github.com/homeassistant-ai/ha-mcp);
-TheBoringMCP bündelt zusätzlich Portainer und den ARR-Stack in einem
-Server, statt mehrere MCP-Server parallel betreiben zu müssen. Seit
-0.4.0 zieht der HA-Teil (über eine eigene WebSocket-Client-Implementierung,
+TheBoringMCP bündelt zusätzlich Portainer in einem Server, statt mehrere
+MCP-Server parallel betreiben zu müssen. Seit 0.4.0 zieht der HA-Teil
+(über eine eigene WebSocket-Client-Implementierung,
 `src/clients/homeassistant-ws.ts`) inhaltlich weitgehend mit `ha-mcp`
 gleich – bewusst ausgenommen sind dessen server-eigene Meta-Tools
 (`ha_get_skill_guide`, `ha_get_operation_status`, `ha_report_issue`), die
@@ -90,12 +90,6 @@ In der Claude-Desktop-Konfiguration (`claude_desktop_config.json`):
         "HA_TOKEN": "...",
         "PORTAINER_URL": "https://192.168.1.11:9444",
         "PORTAINER_API_KEY": "...",
-        "SONARR_URL": "http://192.168.1.5:8989",
-        "SONARR_API_KEY": "...",
-        "RADARR_URL": "http://192.168.1.5:7878",
-        "RADARR_API_KEY": "...",
-        "SABNZBD_URL": "http://192.168.1.5:6554",
-        "SABNZBD_API_KEY": "...",
         "JELLYFIN_URL": "http://192.168.1.5:8096",
         "JELLYFIN_API_KEY": "...",
         "GITHUB_TOKEN": "...",
@@ -117,9 +111,7 @@ gesetzten Variablen werden aktiviert.
 | `HA_URL`, `HA_TOKEN` | Home-Assistant-Basis-URL + Long-Lived Access Token |
 | `PORTAINER_URL`, `PORTAINER_API_KEY` | Portainer-URL + API-Key (*My Account -> Access Tokens*) |
 | `PORTAINER_USERNAME`, `PORTAINER_PASSWORD` | Alternative zu API-Key: Login-Credentials |
-| `SONARR_URL`, `SONARR_API_KEY` | Sonarr-URL + API-Key (*Settings -> General*) |
-| `RADARR_URL`, `RADARR_API_KEY` | Radarr-URL + API-Key |
-| `SABNZBD_URL`, `SABNZBD_API_KEY` | SABnzbd-URL + API-Key |
+| `PORTAINER_INSECURE_TLS` | `true` (Standard) akzeptiert selbstsignierte Zertifikate, `false` erzwingt gültiges TLS |
 | `JELLYFIN_URL`, `JELLYFIN_API_KEY` | Jellyfin-URL + API-Key (*Dashboard -> API Keys*) |
 | `GITHUB_TOKEN` | Personal Access Token (fine-grained oder classic mit `repo`-Scope) |
 | `GITHUB_API_URL` | Nur für GitHub Enterprise Server (Standard: `https://api.github.com`) |
@@ -132,7 +124,7 @@ gesetzten Variablen werden aktiviert.
 ## Sicherheit
 
 TheBoringMCP gibt **vollen, ungefilterten Zugriff** – inklusive Löschen von
-Containern, Automationen, Filmen/Serien und mehr. Im HTTP-Modus **immer**
+Containern, Automationen und mehr. Im HTTP-Modus **immer**
 `MCP_HTTP_TOKEN` setzen und den Port nicht ohne Reverse Proxy/TLS ins
 Internet exponieren. Für reine Auswertung/Dashboards `READ_ONLY=true`
 verwenden.

@@ -6,19 +6,16 @@ import { startHttpServer } from "./http-server.js";
 import { HomeAssistantClient } from "./clients/homeassistant.js";
 import { HomeAssistantWsClient } from "./clients/homeassistant-ws.js";
 import { PortainerClient } from "./clients/portainer.js";
-import { SonarrClient } from "./clients/sonarr.js";
-import { RadarrClient } from "./clients/radarr.js";
-import { SabnzbdClient } from "./clients/sabnzbd.js";
 import { JellyfinClient } from "./clients/jellyfin.js";
 import { GithubClient } from "./clients/github.js";
 import { PlexClient } from "./clients/plex.js";
 import { registerHomeAssistantTools } from "./tools/homeassistant.js";
 import { registerPortainerTools } from "./tools/portainer.js";
-import { registerSonarrTools, registerRadarrTools, registerSabnzbdTools, registerJellyfinTools } from "./tools/media.js";
+import { registerJellyfinTools } from "./tools/media.js";
 import { registerGithubTools } from "./tools/github.js";
 import { registerPlexTools } from "./tools/plex.js";
 
-const VERSION = "1.2.0";
+const VERSION = "1.3.0";
 
 type Config = ReturnType<typeof loadConfig>;
 
@@ -51,21 +48,6 @@ function buildMcpServer(config: Config, { log = false }: { log?: boolean } = {})
   if (config.portainer) {
     registerPortainerTools(server, new PortainerClient(config.portainer), config.readOnly);
     registered.push("Portainer");
-  }
-
-  if (config.sonarr) {
-    registerSonarrTools(server, new SonarrClient(config.sonarr), config.readOnly);
-    registered.push("Sonarr");
-  }
-
-  if (config.radarr) {
-    registerRadarrTools(server, new RadarrClient(config.radarr), config.readOnly);
-    registered.push("Radarr");
-  }
-
-  if (config.sabnzbd) {
-    registerSabnzbdTools(server, new SabnzbdClient(config.sabnzbd), config.readOnly);
-    registered.push("SABnzbd");
   }
 
   if (config.jellyfin) {

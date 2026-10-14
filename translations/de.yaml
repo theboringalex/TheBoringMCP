@@ -1,0 +1,91 @@
+configuration:
+  mcp_http_token:
+    name: "MCP-Zugriffstoken"
+    description: "Bearer-Token, das Claude beim Aufruf mitsenden muss. Pflicht – ohne Token wäre der Server offen."
+  read_only:
+    name: "Nur lesen (global)"
+    description: "Schaltet alle schreibenden Tools aller Apps ab (inkl. UniFi-Schreibrechte)."
+  enable_homeassistant:
+    name: "Zugriff: Home Assistant"
+    description: "Aus = Home Assistant bekommt keinen Zugriff (keine Tools, keine Verbindung)."
+  ha_url:
+    name: "Home Assistant URL (optional)"
+    description: "Leer lassen, um den Supervisor-Proxy zu nutzen."
+  ha_token:
+    name: "Home Assistant Token (optional)"
+    description: "Long-Lived Access Token; leer = Supervisor-Token."
+  enable_portainer:
+    name: "Zugriff: Portainer"
+    description: "Aus = Portainer bekommt keinen Zugriff."
+  portainer_url:
+    name: "Portainer URL"
+    description: "z.B. https://192.168.1.10:9443"
+  portainer_api_key:
+    name: "Portainer API-Key"
+    description: "Zugriffstoken aus Portainer (My account → Access tokens)."
+  portainer_insecure_tls:
+    name: "Portainer: selbstsigniertes Zertifikat erlauben"
+    description: "TLS-Prüfung für Portainer abschalten (nur im Heimnetz)."
+  enable_unifi:
+    name: "Zugriff: UniFi"
+    description: "Aus = UniFi bekommt keinen Zugriff (Prozess wird nicht gestartet)."
+  unifi_host:
+    name: "UniFi Host"
+    description: "IP/Hostname des UniFi-Controllers (UDM/UDR/Cloud Gateway)."
+  unifi_port:
+    name: "UniFi Port"
+    description: "HTTPS-Port des Controllers (Standard 443)."
+  unifi_site:
+    name: "UniFi Site"
+    description: "Name der Site (Standard: default)."
+  unifi_api_key:
+    name: "UniFi API-Key"
+    description: "Empfohlen: lokaler API-Key aus UniFi Network → Integrationen."
+  unifi_username:
+    name: "UniFi Benutzer"
+    description: "Alternative zum API-Key: lokaler Benutzer."
+  unifi_password:
+    name: "UniFi Passwort"
+    description: "Passwort des lokalen Benutzers."
+  unifi_verify_ssl:
+    name: "UniFi: Zertifikat prüfen"
+    description: "An, wenn der Controller ein gültiges Zertifikat hat."
+  unifi_tool_mode:
+    name: "UniFi: Tool-Anzeige"
+    description: "lazy = wenige Meta-Tools (alle Tools per unifi_execute), eager = alle ~210 Tools sichtbar, meta_only = nur Meta-Tools."
+  unifi_allow_create:
+    name: "UniFi: Anlegen erlauben"
+    description: "Erlaubt das Erstellen von Objekten (z.B. Firewall-Regeln). Standard aus."
+  unifi_allow_update:
+    name: "UniFi: Ändern erlauben"
+    description: "Erlaubt das Ändern von Objekten. Standard aus."
+  unifi_allow_delete:
+    name: "UniFi: Löschen erlauben"
+    description: "Erlaubt das Löschen von Objekten. Standard aus."
+  unifi_permission_mode:
+    name: "UniFi: Bestätigung"
+    description: "confirm = jede Änderung erst als Vorschau bestätigen (empfohlen), bypass = ohne Bestätigung."
+  enable_jellyfin:
+    name: "Zugriff: Jellyfin"
+    description: "Aus = Jellyfin bekommt keinen Zugriff."
+  jellyfin_url:
+    name: "Jellyfin URL"
+  jellyfin_api_key:
+    name: "Jellyfin API-Key"
+  enable_plex:
+    name: "Zugriff: Plex"
+    description: "Aus = Plex bekommt keinen Zugriff."
+  plex_url:
+    name: "Plex URL"
+  plex_token:
+    name: "Plex Token"
+  enable_github:
+    name: "Zugriff: GitHub"
+    description: "Aus = GitHub bekommt keinen Zugriff."
+  github_token:
+    name: "GitHub Token"
+  github_api_url:
+    name: "GitHub API-URL (optional)"
+    description: "Nur für GitHub Enterprise Server."
+network:
+  17820/tcp: "MCP Streamable-HTTP"

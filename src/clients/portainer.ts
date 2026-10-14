@@ -92,11 +92,9 @@ export class PortainerClient {
     });
   }
 
-  getContainerLogs(endpointId: number, containerId: string, tail = 200) {
-    return request<string>(this.cfg.baseUrl, `/api/endpoints/${endpointId}/docker/containers/${containerId}/logs`, {
-      headers: this.jwt ? { Authorization: `Bearer ${this.jwt}` } : { "X-API-Key": this.cfg.apiKey ?? "" },
+  async getContainerLogs(endpointId: number, containerId: string, tail = 200) {
+    return this.api<string>(`/endpoints/${endpointId}/docker/containers/${containerId}/logs`, {
       query: { stdout: true, stderr: true, tail, timestamps: true },
-      insecureTLS: this.cfg.insecureTls,
     });
   }
 
@@ -158,5 +156,63 @@ export class PortainerClient {
 
   stopStack(stackId: number, endpointId: number) {
     return this.api(`/stacks/${stackId}/stop`, { method: "POST", query: { endpointId } });
+  }
+
+  // --- Generische Aufrufe (Docker-Proxy und komplette Portainer-REST-API) ---------
+  /** Beliebiger Aufruf der Docker-Engine-API über den Portainer-Proxy (Netzwerke, Volumes, Stats, Exec, ...). */
+  dockerProxy(
+    endpointId: number,
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    path: string,
+    query?: Record<string, string | number | boolean | undefined>,
+    body?: unknown,
+  ) {
+    return this.api<unknown>(`/endpoints/${endpointId}/docker${path}`, { method, query, body });
+  }
+
+  /** Beliebiger Aufruf der Portainer-REST-API (Pfad relativ zu /api, z.B. "/users"). */
+  rest(
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
+    path: string,
+    query?: Record<string, string | number | boolean | undefined>,
+    body?: unknown,
+  ) {
+    return this.api<unknown>(path, { method, query, body });
+  }
+
+  // --- Git-basierte Stacks -------------------------------------------------------
+  createStackFromGit(params: {
+    name: string;
+    endpointId: number;
+    repositoryURL: string;
+    repositoryReferenceName?: string;
+    composeFile?: string;
+    authentication?: { username: string; password: string };
+    env?: Array<{ name: string; value: string }>;
+    autoUpdate?: boolean;
+  }) {
+    return this.api("/stacks/create/standalone/repository", {
+      method: "POST",
+      query: { endpointId: params.endpointId },
+      body: {
+        name: params.name,
+        repositoryURL: params.repositoryURL,
+        repositoryReferenceName: params.repositoryReferenceName ?? "refs/heads/main",
+        composeFile: params.composeFile ?? "docker-compose.yml",
+        repositoryAuthentication: Boolean(params.authentication),
+        repositoryUsername: params.authentication?.username,
+        repositoryPassword: params.authentication?.password,
+        env: params.env ?? [],
+        autoUpdate: params.autoUpdate ? { interval: "5m" } : undefined,
+      },
+    });
+  }
+
+  redeployStackFromGit(stackId: number, endpointId: number, pullImage = true, prune = false) {
+    return this.api(`/stacks/${stackId}/git/redeploy`, {
+      method: "PUT",
+      query: { endpointId },
+      body: { pullImage, prune, env: undefined },
+    });
   }
 }

@@ -158,3 +158,11 @@ dokumentiert alle Änderungen in [CHANGELOG.md](CHANGELOG.md) nach dem
 ## Lizenz
 
 MIT – siehe [LICENSE](LICENSE).
+
+
+## Apps einzeln abschalten (ab 2.0.0)
+
+Pro App gibt es einen Zugriffsschalter (`enable_homeassistant`, `enable_portainer`, `enable_unifi`,
+`enable_jellyfin`, `enable_plex`, `enable_github`; ENV `ENABLE_*`, Standard: an). Ist er aus, bekommt die App
+keinen Zugriff. Neu: UniFi (über `unifi-network-mcp`), erweiterte Portainer-Tools und HA-Ergänzungen
+aus ha-mcp – Details in `DOCS.md` und `CHANGELOG.md`. Das Tool `tbm_status` zeigt den aktuellen Stand.

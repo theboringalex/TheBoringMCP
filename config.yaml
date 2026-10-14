@@ -1,7 +1,7 @@
 name: "TheBoringMCP"
-version: "1.3.0"
+version: "2.0.0"
 slug: "theboringmcp"
-description: "Ein MCP-Server mit vollem Zugriff auf Home Assistant und Portainer (plus optional Jellyfin, Plex und GitHub)"
+description: "Ein MCP-Endpunkt für Home Assistant, Portainer, UniFi, Jellyfin, Plex und GitHub – jede App einzeln abschaltbar"
 url: "https://github.com/theboringalex/TheBoringMCP"
 arch:
   - aarch64
@@ -12,6 +12,7 @@ startup: application
 boot: auto
 homeassistant_api: true
 hassio_api: true
+hassio_role: manager
 ingress: false
 host_network: false
 ports:
@@ -20,29 +21,65 @@ ports_description:
   17820/tcp: "MCP Streamable-HTTP-Endpunkt (Bearer-Token via mcp_http_token)"
 options:
   mcp_http_token: ""
+  read_only: false
+  enable_homeassistant: true
   ha_url: ""
   ha_token: ""
+  enable_portainer: true
   portainer_url: ""
   portainer_api_key: ""
   portainer_insecure_tls: true
+  enable_unifi: true
+  unifi_host: ""
+  unifi_port: 443
+  unifi_site: "default"
+  unifi_api_key: ""
+  unifi_username: ""
+  unifi_password: ""
+  unifi_verify_ssl: false
+  unifi_tool_mode: "lazy"
+  unifi_allow_create: false
+  unifi_allow_update: false
+  unifi_allow_delete: false
+  unifi_permission_mode: "confirm"
+  enable_jellyfin: true
   jellyfin_url: ""
   jellyfin_api_key: ""
-  github_token: ""
-  github_api_url: ""
+  enable_plex: true
   plex_url: ""
   plex_token: ""
-  read_only: false
+  enable_github: true
+  github_token: ""
+  github_api_url: ""
 schema:
-  mcp_http_token: "str"
-  ha_url: "str?"
-  ha_token: "str?"
-  portainer_url: "str?"
-  portainer_api_key: "str?"
-  portainer_insecure_tls: "bool?"
-  jellyfin_url: "str?"
-  jellyfin_api_key: "str?"
-  github_token: "str?"
-  github_api_url: "str?"
-  plex_url: "str?"
-  plex_token: "str?"
+  mcp_http_token: "password"
   read_only: "bool"
+  enable_homeassistant: "bool"
+  ha_url: "str?"
+  ha_token: "password?"
+  enable_portainer: "bool"
+  portainer_url: "str?"
+  portainer_api_key: "password?"
+  portainer_insecure_tls: "bool?"
+  enable_unifi: "bool"
+  unifi_host: "str?"
+  unifi_port: "port?"
+  unifi_site: "str?"
+  unifi_api_key: "password?"
+  unifi_username: "str?"
+  unifi_password: "password?"
+  unifi_verify_ssl: "bool?"
+  unifi_tool_mode: "list(lazy|eager|meta_only)?"
+  unifi_allow_create: "bool?"
+  unifi_allow_update: "bool?"
+  unifi_allow_delete: "bool?"
+  unifi_permission_mode: "list(confirm|bypass)?"
+  enable_jellyfin: "bool"
+  jellyfin_url: "str?"
+  jellyfin_api_key: "password?"
+  enable_plex: "bool"
+  plex_url: "str?"
+  plex_token: "password?"
+  enable_github: "bool"
+  github_token: "password?"
+  github_api_url: "str?"

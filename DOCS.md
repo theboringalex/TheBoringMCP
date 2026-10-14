@@ -167,3 +167,40 @@ Dieses Add-on gibt vollen, ungefilterten Schreibzugriff auf Home Assistant
 und Portainer. Setze unbedingt ein starkes `mcp_http_token`, exponiere den
 Port nicht direkt ins Internet ohne Reverse Proxy mit TLS, und nutze
 `read_only: true`, falls du nur Auswertungen/Dashboards bauen willst.
+
+
+## Zugriffsschalter je App (ab 2.0.0)
+
+In den Add-on-Optionen gibt es pro App einen Schalter `enable_*` (Standard: an):
+
+| Schalter | Wirkung bei „aus“ |
+|---|---|
+| `enable_homeassistant` | Keine `ha_*`-Tools, kein Zugriff auf HA |
+| `enable_portainer` | Keine `portainer_*`-Tools |
+| `enable_unifi` | Keine `unifi_*`-Tools, der UniFi-Prozess wird nicht gestartet |
+| `enable_jellyfin` / `enable_plex` / `enable_github` | Keine Tools der jeweiligen App |
+
+Abgeschaltete Apps werden nicht kontaktiert, ihre Zugangsdaten nicht verwendet. Den aktuellen
+Stand zeigt das Tool `tbm_status` (active / disabled / not_configured, Anzahl Tools, UniFi-Bridge-Status).
+Nach Änderung der Optionen das Add-on neu starten.
+
+## UniFi
+
+- Verbindung: `unifi_host` + `unifi_api_key` (empfohlen) oder `unifi_username`/`unifi_password`.
+- Schreibrechte sind **standardmäßig aus** (`unifi_allow_create|update|delete`). Für das Härten der
+  Firewall zunächst nur lesen (Regeln, Zonen, Clients, Ports analysieren), Änderungen gezielt freischalten.
+- `unifi_permission_mode: confirm` zeigt jede Änderung erst als Vorschau.
+- `read_only: true` sperrt alle Änderungen, auch über `unifi_execute`/`unifi_batch`.
+- Auf armv7 ist die UniFi-Bridge nicht verfügbar (keine Python-Wheels).
+
+## Portainer-Erweiterungen
+
+`portainer_docker_proxy` und `portainer_api_request` erlauben beliebige Aufrufe; im `read_only`-Modus nur GET.
+`portainer_search_api` findet passende Endpunkte.
+
+## Supervisor-Funktionen und Berechtigung
+
+`ha_get_app`, `ha_manage_app` und `ha_manage_updates` nutzen die Supervisor-API. Dafür setzt das Add-on
+`hassio_role: manager`. Falls Core-/OS-Updates mit 403 abgelehnt werden, braucht es die Rolle `admin`.
+Das eigene Add-on wird nie über diese Tools gestoppt oder aktualisiert. Gespeicherte Add-on-Optionen
+(Zugangsdaten) werden nicht ausgegeben.

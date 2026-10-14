@@ -22,6 +22,14 @@ services:
       MCP_HTTP_TOKEN: "CHANGE_ME"
       READ_ONLY: "false"
 
+      # Zugriffsschalter je App (Standard: true). "false" = App bekommt keinen Zugriff.
+      ENABLE_HOMEASSISTANT: "true"
+      ENABLE_PORTAINER: "true"
+      ENABLE_UNIFI: "true"
+      ENABLE_JELLYFIN: "true"
+      ENABLE_PLEX: "true"
+      ENABLE_GITHUB: "true"
+
       HA_URL: "http://192.168.1.11:8123"
       HA_TOKEN: "CHANGE_ME"
 
@@ -30,6 +38,16 @@ services:
       # true, solange Portainer ein selbstsigniertes TLS-Zertifikat nutzt (Standard im Heimnetz);
       # auf "false" setzen, sobald ein gültiges/vertrauenswürdiges Zertifikat vorliegt.
       PORTAINER_INSECURE_TLS: "true"
+
+      # UniFi (Schreibrechte standardmäßig aus; Änderungen brauchen zusätzlich eine Bestätigung)
+      UNIFI_HOST: "192.168.1.1"
+      UNIFI_API_KEY: "CHANGE_ME"
+      UNIFI_SITE: "default"
+      UNIFI_TOOL_MODE: "lazy"           # lazy | eager | meta_only
+      UNIFI_ALLOW_CREATE: "false"
+      UNIFI_ALLOW_UPDATE: "false"
+      UNIFI_ALLOW_DELETE: "false"
+      UNIFI_PERMISSION_MODE: "confirm"  # confirm | bypass
 
       JELLYFIN_URL: "http://192.168.1.5:8096"
       JELLYFIN_API_KEY: "CHANGE_ME"

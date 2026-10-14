@@ -21,7 +21,7 @@ import { registerSabnzbdTools } from "./tools/sabnzbd.js";
 import { registerUnifiTools } from "./tools/unifi.js";
 import { registerN8nTools } from "./tools/n8n.js";
 
-export const VERSION = "2.0.0";
+export const VERSION = "2.0.1";
 
 type ServiceKey = "ha" | "portainer" | "jellyfin" | "sonarr" | "radarr" | "sabnzbd" | "unifi" | "n8n";
 

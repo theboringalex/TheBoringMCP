@@ -7,6 +7,12 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-10-14
+
+### Geändert
+- **UniFi Protect wurde durch UniFi Network ersetzt**: statt Kameras jetzt Zugriff auf Gateway/Konsole – Sites, Geräte, Clients, Netzwerke/VLANs, WLAN, Firewall-Zonen und -Regeln (inkl. Reihenfolge), ACL-Regeln, DNS-Richtlinien, Traffic-Matching-Listen, Gast-Gutscheine, WAN/VPN (62 Tools + `unifi_api`). Pfad `/unifi` (`/protect` bleibt als Alias). Optionen heißen jetzt `unifi_*` (vorher `unifi_protect_*`), Variablen `UNIFI_*`.
+- Dokumentation, Einstellungsseite und Übersetzungen entsprechend angepasst.
+
 ## [2.0.0] - 2026-10-14
 
 Komplett neu aufgebaut. / Rebuilt from scratch.
@@ -280,6 +286,7 @@ Komplett neu aufgebaut. / Rebuilt from scratch.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
 [Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...HEAD
+[2.0.1]: https://github.com/theboringalex/TheBoringMCP/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v1.1.0

@@ -1,0 +1,91 @@
+configuration:
+  mcp_http_token:
+    name: "MCP access token"
+    description: "Bearer token Claude must send. Required – without it the server would be open."
+  read_only:
+    name: "Read only (global)"
+    description: "Disables all write tools of all apps (including UniFi write permissions)."
+  enable_homeassistant:
+    name: "Access: Home Assistant"
+    description: "Off = Home Assistant gets no access (no tools, no connection)."
+  ha_url:
+    name: "Home Assistant URL (optional)"
+    description: "Leave empty to use the Supervisor proxy."
+  ha_token:
+    name: "Home Assistant token (optional)"
+    description: "Long-lived access token; empty = Supervisor token."
+  enable_portainer:
+    name: "Access: Portainer"
+    description: "Off = Portainer gets no access."
+  portainer_url:
+    name: "Portainer URL"
+    description: "e.g. https://192.168.1.10:9443"
+  portainer_api_key:
+    name: "Portainer API key"
+    description: "Access token from Portainer (My account → Access tokens)."
+  portainer_insecure_tls:
+    name: "Portainer: allow self-signed certificate"
+    description: "Skip TLS verification for Portainer (home network only)."
+  enable_unifi:
+    name: "Access: UniFi"
+    description: "Off = UniFi gets no access (the process is not started)."
+  unifi_host:
+    name: "UniFi host"
+    description: "IP/hostname of the UniFi controller (UDM/UDR/Cloud Gateway)."
+  unifi_port:
+    name: "UniFi port"
+    description: "HTTPS port of the controller (default 443)."
+  unifi_site:
+    name: "UniFi site"
+    description: "Site name (default: default)."
+  unifi_api_key:
+    name: "UniFi API key"
+    description: "Recommended: local API key from UniFi Network → Integrations."
+  unifi_username:
+    name: "UniFi username"
+    description: "Alternative to the API key: local user."
+  unifi_password:
+    name: "UniFi password"
+    description: "Password of the local user."
+  unifi_verify_ssl:
+    name: "UniFi: verify certificate"
+    description: "On if the controller has a valid certificate."
+  unifi_tool_mode:
+    name: "UniFi: tool listing"
+    description: "lazy = few meta tools (all tools via unifi_execute), eager = all ~210 tools visible, meta_only = meta tools only."
+  unifi_allow_create:
+    name: "UniFi: allow create"
+    description: "Allows creating objects (e.g. firewall rules). Off by default."
+  unifi_allow_update:
+    name: "UniFi: allow update"
+    description: "Allows modifying objects. Off by default."
+  unifi_allow_delete:
+    name: "UniFi: allow delete"
+    description: "Allows deleting objects. Off by default."
+  unifi_permission_mode:
+    name: "UniFi: confirmation"
+    description: "confirm = preview and confirm every change (recommended), bypass = no confirmation."
+  enable_jellyfin:
+    name: "Access: Jellyfin"
+    description: "Off = Jellyfin gets no access."
+  jellyfin_url:
+    name: "Jellyfin URL"
+  jellyfin_api_key:
+    name: "Jellyfin API key"
+  enable_plex:
+    name: "Access: Plex"
+    description: "Off = Plex gets no access."
+  plex_url:
+    name: "Plex URL"
+  plex_token:
+    name: "Plex token"
+  enable_github:
+    name: "Access: GitHub"
+    description: "Off = GitHub gets no access."
+  github_token:
+    name: "GitHub token"
+  github_api_url:
+    name: "GitHub API URL (optional)"
+    description: "GitHub Enterprise Server only."
+network:
+  17820/tcp: "MCP Streamable-HTTP"

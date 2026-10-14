@@ -1,7 +1,7 @@
 name: "TheBoringMCP"
 version: "2.0.0"
 slug: "theboringmcp"
-description: "One MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi Protect and n8n – with on/off switch per app"
+description: "One MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi and n8n – with on/off switch per app"
 url: "https://github.com/theboringalex/TheBoringMCP"
 arch:
   - aarch64
@@ -43,10 +43,10 @@ options:
   portainer_url: ""
   portainer_api_key: ""
   portainer_insecure_tls: true
-  unifi_protect_enabled: true
-  unifi_protect_url: ""
-  unifi_protect_api_key: ""
-  unifi_protect_insecure_tls: true
+  unifi_enabled: true
+  unifi_url: ""
+  unifi_api_key: ""
+  unifi_insecure_tls: true
   n8n_enabled: true
   n8n_url: ""
   n8n_api_key: ""
@@ -72,10 +72,10 @@ schema:
   portainer_url: "str?"
   portainer_api_key: "password?"
   portainer_insecure_tls: "bool?"
-  unifi_protect_enabled: "bool"
-  unifi_protect_url: "str?"
-  unifi_protect_api_key: "password?"
-  unifi_protect_insecure_tls: "bool?"
+  unifi_enabled: "bool"
+  unifi_url: "str?"
+  unifi_api_key: "password?"
+  unifi_insecure_tls: "bool?"
   n8n_enabled: "bool"
   n8n_url: "str?"
   n8n_api_key: "password?"

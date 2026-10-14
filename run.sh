@@ -57,11 +57,11 @@ export SABNZBD_ENABLED="$(get_option sabnzbd_enabled)"
 export SABNZBD_URL="$(get_option sabnzbd_url)"
 export SABNZBD_API_KEY="$(get_option sabnzbd_api_key)"
 
-# --- unifi_protect ---
-export UNIFI_PROTECT_ENABLED="$(get_option unifi_protect_enabled)"
-export UNIFI_PROTECT_URL="$(get_option unifi_protect_url)"
-export UNIFI_PROTECT_API_KEY="$(get_option unifi_protect_api_key)"
-export UNIFI_PROTECT_INSECURE_TLS="$(get_option unifi_protect_insecure_tls)"
+# --- unifi ---
+export UNIFI_ENABLED="$(get_option unifi_enabled)"
+export UNIFI_URL="$(get_option unifi_url)"
+export UNIFI_API_KEY="$(get_option unifi_api_key)"
+export UNIFI_INSECURE_TLS="$(get_option unifi_insecure_tls)"
 
 # --- n8n ---
 export N8N_ENABLED="$(get_option n8n_enabled)"
@@ -77,6 +77,6 @@ export ADMIN_UI_PORT=8099
 state() { # $1 = enabled, $2 = url
   if [ "$1" = "false" ]; then echo "aus"; elif [ -n "$2" ]; then echo "an"; else echo "nicht eingerichtet"; fi
 }
-echo "[TheBoringMCP add-on] HA=$(state "$HA_ENABLED" "$HA_URL") Sonarr=$(state "$SONARR_ENABLED" "$SONARR_URL") Radarr=$(state "$RADARR_ENABLED" "$RADARR_URL") SABnzbd=$(state "$SABNZBD_ENABLED" "$SABNZBD_URL") Jellyfin=$(state "$JELLYFIN_ENABLED" "$JELLYFIN_URL") Portainer=$(state "$PORTAINER_ENABLED" "$PORTAINER_URL") Protect=$(state "$UNIFI_PROTECT_ENABLED" "$UNIFI_PROTECT_URL") n8n=$(state "$N8N_ENABLED" "$N8N_URL")"
+echo "[TheBoringMCP add-on] HA=$(state "$HA_ENABLED" "$HA_URL") Sonarr=$(state "$SONARR_ENABLED" "$SONARR_URL") Radarr=$(state "$RADARR_ENABLED" "$RADARR_URL") SABnzbd=$(state "$SABNZBD_ENABLED" "$SABNZBD_URL") Jellyfin=$(state "$JELLYFIN_ENABLED" "$JELLYFIN_URL") Portainer=$(state "$PORTAINER_ENABLED" "$PORTAINER_URL") UniFi=$(state "$UNIFI_ENABLED" "$UNIFI_URL") n8n=$(state "$N8N_ENABLED" "$N8N_URL")"
 echo "[TheBoringMCP add-on] Starte MCP-Server auf Port ${PORT} ..."
 exec node /app/dist/index.js

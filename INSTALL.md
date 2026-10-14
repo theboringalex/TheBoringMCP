@@ -64,7 +64,7 @@ Open **TheBoringMCP** in the Home Assistant sidebar. You see one card per progra
 | SABnzbd | `http://192.168.1.20:8080` | SABnzbd → *Config → General → Security → API Key* |
 | Jellyfin | `http://192.168.1.20:8096` | Jellyfin → *Dashboard → API Keys → +* |
 | Portainer | `https://192.168.1.20:9443` | Portainer → click your name → *My account → Access tokens → Add* (copy it right away – it is shown only once) |
-| UniFi Protect | `https://192.168.1.1` (your UniFi console) | UniFi → *Settings → Control Plane → Integrations → Create API Key* |
+| UniFi | `https://192.168.1.1` (your gateway / UniFi console) | UniFi → *Settings → Control Plane → Integrations → Create API Key* |
 | n8n | `http://192.168.1.20:5678` | n8n → *Settings → n8n API → Create an API key* |
 | Home Assistant | – (automatic) | – |
 
@@ -73,7 +73,7 @@ Tip: use the **IP address** of the computer where the program runs, not `localho
 <a id="en-5"></a>
 ### 5. Connect Claude
 
-**Why one connector per program?** Claude.ai allows about 100 tools per connector. TheBoringMCP has over 300 in total, but **no single program has more than 100** (Home Assistant has the most with 78). So you create **one connector per program you use** – all with the same password:
+**Why one connector per program?** Claude.ai allows about 100 tools per connector. TheBoringMCP has over 340 in total, but **no single program has more than 100** (Home Assistant has the most with 78). So you create **one connector per program you use** – all with the same password:
 
 | Name (your choice) | Address |
 |---|---|
@@ -83,7 +83,7 @@ Tip: use the **IP address** of the computer where the program runs, not `localho
 | SABnzbd | `https://mcp.example.com/sabnzbd` |
 | Jellyfin | `https://mcp.example.com/jellyfin` |
 | Portainer | `https://mcp.example.com/portainer` |
-| UniFi Protect | `https://mcp.example.com/protect` |
+| UniFi | `https://mcp.example.com/unifi` |
 | n8n | `https://mcp.example.com/n8n` |
 
 (Replace `https://mcp.example.com` with your own address – see section 6. At home you can use `http://<home-assistant-ip>:17820`.)
@@ -122,7 +122,7 @@ Open a new chat with Claude, enable your connector and ask for example:
 - *"Which containers are running in Portainer?"*
 - *"Add the movie Dune to Radarr in the best quality profile."*
 - *"What is downloading in SABnzbd right now?"*
-- *"Show me a snapshot of my front door camera."*
+- *"Create a firewall rule that blocks the IoT network from reaching my LAN."*
 - *"List my n8n workflows and tell me which ones failed this week."*
 
 <a id="en-8"></a>
@@ -215,7 +215,7 @@ Questions, bugs or ideas? [Open an issue](https://github.com/theboringalex/TheBo
 | SABnzbd | `http://192.168.1.20:8080` | SABnzbd → *Einstellungen → Allgemein → Sicherheit → API-Schlüssel* |
 | Jellyfin | `http://192.168.1.20:8096` | Jellyfin → *Dashboard → API-Schlüssel → +* |
 | Portainer | `https://192.168.1.20:9443` | Portainer → auf deinen Namen klicken → *Mein Konto → Zugriffstoken → Hinzufügen* (sofort kopieren – er wird nur einmal angezeigt) |
-| UniFi Protect | `https://192.168.1.1` (deine UniFi-Konsole) | UniFi → *Einstellungen → Control Plane → Integrationen → API-Schlüssel erstellen* |
+| UniFi | `https://192.168.1.1` (dein Gateway / deine UniFi-Konsole) | UniFi → *Einstellungen → Control Plane → Integrationen → API-Schlüssel erstellen* |
 | n8n | `http://192.168.1.20:5678` | n8n → *Einstellungen → n8n API → API-Schlüssel erstellen* |
 | Home Assistant | – (automatisch) | – |
 
@@ -224,7 +224,7 @@ Tipp: Nimm die **IP-Adresse** des Rechners, auf dem das Programm läuft – nich
 <a id="de-5"></a>
 ### 5. Claude verbinden
 
-**Warum ein Connector pro Programm?** Claude.ai erlaubt etwa 100 Tools pro Connector. TheBoringMCP hat insgesamt über 300, aber **kein einzelnes Programm hat mehr als 100** (Home Assistant hat mit 78 die meisten). Du legst also **pro genutztem Programm einen Connector** an – überall mit demselben Passwort:
+**Warum ein Connector pro Programm?** Claude.ai erlaubt etwa 100 Tools pro Connector. TheBoringMCP hat insgesamt über 340, aber **kein einzelnes Programm hat mehr als 100** (Home Assistant hat mit 78 die meisten). Du legst also **pro genutztem Programm einen Connector** an – überall mit demselben Passwort:
 
 | Name (frei wählbar) | Adresse |
 |---|---|
@@ -234,7 +234,7 @@ Tipp: Nimm die **IP-Adresse** des Rechners, auf dem das Programm läuft – nich
 | SABnzbd | `https://mcp.example.com/sabnzbd` |
 | Jellyfin | `https://mcp.example.com/jellyfin` |
 | Portainer | `https://mcp.example.com/portainer` |
-| UniFi Protect | `https://mcp.example.com/protect` |
+| UniFi | `https://mcp.example.com/unifi` |
 | n8n | `https://mcp.example.com/n8n` |
 
 (Ersetze `https://mcp.example.com` durch deine eigene Adresse – siehe Abschnitt 6. Zuhause geht `http://<home-assistant-ip>:17820`.)
@@ -273,7 +273,7 @@ Starte einen neuen Chat mit Claude, schalte deinen Connector ein und frage zum B
 - *„Welche Container laufen in Portainer?"*
 - *„Füge den Film Dune zu Radarr hinzu, im besten Qualitätsprofil."*
 - *„Was lädt SABnzbd gerade herunter?"*
-- *„Zeig mir ein Standbild von meiner Haustür-Kamera."*
+- *„Lege eine Firewall-Regel an, die das IoT-Netz vom LAN abschottet."*
 - *„Liste meine n8n-Workflows und sag mir, welche diese Woche fehlgeschlagen sind."*
 
 <a id="de-8"></a>

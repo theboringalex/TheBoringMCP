@@ -13,7 +13,7 @@ import { request } from "./clients/http.js";
 const OPTIONS_PATH = "/data/options.json";
 const SECRET_KEYS = [
   "mcp_http_token", "ha_token", "portainer_api_key", "jellyfin_api_key", "sonarr_api_key",
-  "radarr_api_key", "sabnzbd_api_key", "unifi_protect_api_key", "n8n_api_key",
+  "radarr_api_key", "sabnzbd_api_key", "unifi_api_key", "n8n_api_key",
 ];
 const VERSION = "2.0.0";
 
@@ -100,12 +100,12 @@ async function testService(service: string, values: Record<string, unknown>): Pr
         });
         return { ok: true, message: `Verbunden – ${Array.isArray(r) ? r.length : "?"} Umgebung(en)` };
       }
-      case "unifi_protect": {
-        const r = await request<{ applicationVersion?: string }>(clean(pick("unifi_protect_url")), "/proxy/protect/integration/v1/meta/info", {
-          headers: { "X-API-KEY": pick("unifi_protect_api_key") },
-          insecureTLS: insecure("unifi_protect_insecure_tls"),
+      case "unifi": {
+        const r = await request<{ applicationVersion?: string }>(clean(pick("unifi_url")), "/proxy/network/integration/v1/info", {
+          headers: { "X-API-KEY": pick("unifi_api_key") },
+          insecureTLS: insecure("unifi_insecure_tls"),
         });
-        return { ok: true, message: `Verbunden – Protect ${r.applicationVersion ?? ""}` };
+        return { ok: true, message: `Verbunden – UniFi Network ${r.applicationVersion ?? ""}` };
       }
       case "n8n": {
         await request(clean(pick("n8n_url")), "/api/v1/workflows", { query: { limit: 1 }, headers: { "X-N8N-API-KEY": pick("n8n_api_key") } });

@@ -12,13 +12,12 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 Komplett neu aufgebaut. / Rebuilt from scratch.
 
 ### Hinzugefügt
-- **Acht Dienste mit vollem Schreibzugriff:** Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, **UniFi Protect** (neu) und **n8n** (neu).
+- **Acht Dienste mit vollem Schreibzugriff:** Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, **UniFi** (neu) und **n8n** (neu).
 - Sonarr/Radarr/SABnzbd wieder da – mit deutlich mehr Tools (Profile, Custom Formats, Tags, Release-Suche, Blocklist, Konfiguration, Bulk-Edit …); Jellyfin von 8 auf 33 Tools erweitert.
-- **Generalschlüssel-Tool** pro Dienst (`sonarr_api`, `radarr_api`, `jellyfin_api`, `portainer_api`, `protect_api`, `n8n_api`) für jede API-Funktion ohne eigenes Tool.
+- **Generalschlüssel-Tool** pro Dienst (`sonarr_api`, `radarr_api`, `jellyfin_api`, `portainer_api`, `unifi_api`, `n8n_api`) für jede API-Funktion ohne eigenes Tool.
 - **Einstellungsseite** (Ingress, Seitenleiste): eine Karte pro Dienst mit Logo, Ein/Aus-Schalter, Eingabefeldern, „Verbindung testen" und Token-Generator. Geheimnisse werden nie zurück an den Browser geschickt.
 - **Ein/Aus-Schalter pro Dienst** (`<dienst>_enabled` / `<DIENST>_ENABLED`), Add-on-Optionen nach Dienst gruppiert, Übersetzungen (en/de) für die Konfigurationsseite.
-- **Pfad-Routing** wegen des 100-Tool-Limits von Claude.ai: ein Connector pro Programm (`/ha`, `/sonarr`, `/radarr`, `/sabnzbd`, `/jellyfin`, `/portainer`, `/protect`, `/n8n`; keins hat mehr als 100 Tools), `/` für alles, optionale Bündel `/arr` `/media` `/infra`; `/rest` bleibt kompatibel.
-- Kamera-Standbilder von UniFi Protect werden als Bild zurückgegeben.
+- **Pfad-Routing** wegen des 100-Tool-Limits von Claude.ai: ein Connector pro Programm (`/ha`, `/sonarr`, `/radarr`, `/sabnzbd`, `/jellyfin`, `/portainer`, `/unifi`, `/n8n`; keins hat mehr als 100 Tools), `/` für alles, optionale Bündel `/arr` `/media` `/infra`; `/rest` bleibt kompatibel.
 - Neue, einsteigerfreundliche Dokumentation (Englisch und Deutsch).
 
 ### Geändert

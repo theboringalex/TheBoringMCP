@@ -62,17 +62,17 @@ configuration:
   portainer_insecure_tls:
     name: "🐳 Portainer – Accept self-signed certificate"
     description: "Usually needed on a home network."
-  unifi_protect_enabled:
-    name: "📹 UniFi Protect – On/Off"
-    description: "Switch UniFi Protect on or off. Off = Claude cannot use it."
-  unifi_protect_url:
-    name: "📹 UniFi Protect – Address of the UniFi console"
+  unifi_enabled:
+    name: "🛜 UniFi – On/Off"
+    description: "Switch UniFi on or off. Off = Claude cannot use it."
+  unifi_url:
+    name: "🛜 UniFi – Address of the gateway / UniFi console"
     description: "e.g. https://192.168.1.1"
-  unifi_protect_api_key:
-    name: "📹 UniFi Protect – API key"
+  unifi_api_key:
+    name: "🛜 UniFi – API key"
     description: "UniFi: Settings → Control Plane → Integrations."
-  unifi_protect_insecure_tls:
-    name: "📹 UniFi Protect – Accept self-signed certificate"
+  unifi_insecure_tls:
+    name: "🛜 UniFi – Accept self-signed certificate"
     description: "UniFi devices almost always use one."
   n8n_enabled:
     name: "🔗 n8n – On/Off"

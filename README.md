@@ -14,7 +14,7 @@
 
 TheBoringMCP connects the AI assistant [Claude](https://claude.ai) to the programs that run your home and your media – so you can simply *ask*:
 
-> "Which Docker containers are running?" · "Turn off all lights downstairs." · "Add the show *Severance* to Sonarr." · "Why is my SABnzbd download stuck?" · "Show me the front-door camera." · "Create an n8n workflow that sends me a message when the washing machine is done."
+> "Which Docker containers are running?" · "Turn off all lights downstairs." · "Add the show *Severance* to Sonarr." · "Why is my SABnzbd download stuck?" · "Which firewall rules are active for the IoT network?" · "Create an n8n workflow that sends me a message when the washing machine is done."
 
 No coding needed. You install one add-on, switch on the apps you use, and connect Claude.
 
@@ -30,7 +30,7 @@ Claude can only *talk* – unless you give it "hands". These hands are called an
 | ⬇️ | **SABnzbd** | see/pause/resume downloads, add NZBs, speed limit, history, retry | 25 |
 | 🍿 | **Jellyfin** | search library, who is watching, users, scans, scheduled tasks | 28 |
 | 🐳 | **Portainer** | start/stop/create containers, stacks, images, logs | 22 |
-| 📹 | **UniFi Protect** | cameras, live snapshots, lights, sensors, door locks, live views | 29 |
+| 🛜 | **UniFi** (gateway) | networks/VLANs, Wi-Fi, **firewall zones & rules**, ACLs, DNS policies, devices, clients, guest vouchers, VPN/WAN info | 62 |
 | 🔗 | **n8n** | create/edit/run workflows, executions, credentials, tags, variables | 35 |
 
 Every app also has a **"master key" tool** (e.g. `sonarr_api`) so Claude can reach *any* feature of the app's API – even ones that have no dedicated tool.
@@ -64,9 +64,9 @@ Claude.ai accepts at most **~100 tools per connector**. That is why **every app 
 | SABnzbd | `/sabnzbd` | 25 |
 | Jellyfin | `/jellyfin` | 28 |
 | Portainer | `/portainer` | 22 |
-| UniFi Protect | `/protect` | 29 |
+| UniFi | `/unifi` | 62 |
 | n8n | `/n8n` | 35 |
-| *Everything at once (Claude Desktop / Claude Code – no limit there)* | `/` | 316 |
+| *Everything at once (Claude Desktop / Claude Code – no limit there)* | `/` | 349 |
 
 (Optional bundles that stay under the limit: `/arr`, `/media`, `/infra`.)
 
@@ -106,7 +106,7 @@ MIT – see [LICENSE](LICENSE). Changes: [CHANGELOG.md](CHANGELOG.md) ([Semantic
 
 TheBoringMCP verbindet den KI-Assistenten [Claude](https://claude.ai) mit den Programmen, die dein Zuhause und deine Medien steuern – du kannst einfach *fragen*:
 
-> „Welche Docker-Container laufen gerade?" · „Mach unten alle Lichter aus." · „Füge die Serie *Severance* zu Sonarr hinzu." · „Warum hängt mein SABnzbd-Download?" · „Zeig mir die Haustür-Kamera." · „Bau mir einen n8n-Workflow, der mir Bescheid gibt, wenn die Waschmaschine fertig ist."
+> „Welche Docker-Container laufen gerade?" · „Mach unten alle Lichter aus." · „Füge die Serie *Severance* zu Sonarr hinzu." · „Warum hängt mein SABnzbd-Download?" · „Welche Firewall-Regeln gelten für das IoT-Netz?" · „Bau mir einen n8n-Workflow, der mir Bescheid gibt, wenn die Waschmaschine fertig ist."
 
 Du musst nicht programmieren können. Du installierst ein Add-on, schaltest die Programme ein, die du nutzt, und verbindest Claude.
 
@@ -122,7 +122,7 @@ Claude kann von sich aus nur *reden* – außer du gibst ihm „Hände". Diese H
 | ⬇️ | **SABnzbd** | Downloads ansehen/pausieren/fortsetzen, NZBs hinzufügen, Speed-Limit, Verlauf | 25 |
 | 🍿 | **Jellyfin** | Bibliothek durchsuchen, wer schaut gerade, Benutzer, Scans, geplante Aufgaben | 28 |
 | 🐳 | **Portainer** | Container starten/stoppen/anlegen, Stacks, Images, Logs | 22 |
-| 📹 | **UniFi Protect** | Kameras, Live-Standbilder, Lichter, Sensoren, Türschlösser, Live-Ansichten | 29 |
+| 🛜 | **UniFi** (Gateway) | Netzwerke/VLANs, WLAN, **Firewall-Zonen & -Regeln**, ACLs, DNS-Richtlinien, Geräte, Clients, Gast-Gutscheine, VPN-/WAN-Infos | 62 |
 | 🔗 | **n8n** | Workflows anlegen/ändern/starten, Ausführungen, Zugangsdaten, Tags, Variablen | 35 |
 
 Jedes Programm hat zusätzlich ein **„Generalschlüssel"-Tool** (z. B. `sonarr_api`), mit dem Claude *jede* Funktion der Programm-Schnittstelle erreicht – auch solche ohne eigenes Tool.
@@ -156,9 +156,9 @@ Claude.ai erlaubt höchstens **~100 Tools pro Connector**. Deshalb bekommt **jed
 | SABnzbd | `/sabnzbd` | 25 |
 | Jellyfin | `/jellyfin` | 28 |
 | Portainer | `/portainer` | 22 |
-| UniFi Protect | `/protect` | 29 |
+| UniFi | `/unifi` | 62 |
 | n8n | `/n8n` | 35 |
-| *Alles auf einmal (Claude Desktop / Claude Code – dort kein Limit)* | `/` | 316 |
+| *Alles auf einmal (Claude Desktop / Claude Code – dort kein Limit)* | `/` | 349 |
 
 (Optionale Bündel unterhalb des Limits: `/arr`, `/media`, `/infra`.)
 

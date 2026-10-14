@@ -30,7 +30,7 @@ RUN chmod a+x /run.sh
 
 LABEL \
   io.hass.name="TheBoringMCP" \
-  io.hass.description="MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi Protect, n8n" \
+  io.hass.description="MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi, n8n" \
   io.hass.type="addon" \
   io.hass.version="2.0.0"
 

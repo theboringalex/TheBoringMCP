@@ -67,7 +67,7 @@ export function startHttpServer(createMcpServer: (pathname: string) => McpServer
     const pathname = (req.url ?? "/").split("?")[0];
     const mcpServer = createMcpServer(pathname);
     if (!mcpServer) {
-      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "unknown_path", hint: "Gültige Pfade: / /ha /arr /media /infra /sonarr /radarr /sabnzbd /jellyfin /portainer /protect /n8n" }));
+      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "unknown_path", hint: "Gültige Pfade: / /ha /arr /media /infra /sonarr /radarr /sabnzbd /jellyfin /portainer /unifi /n8n" }));
       return;
     }
 

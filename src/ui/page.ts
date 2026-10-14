@@ -98,11 +98,11 @@ export const PAGE_HTML = String.raw`<!doctype html>
       fields: [ { k: "portainer_url", de: "Adresse", en: "Address", ph: "https://192.168.1.20:9443" },
         { k: "portainer_api_key", secret: true, de: "Zugriffstoken", en: "Access token", hde: "In Portainer: Mein Konto → Zugriffstoken → hinzufügen.", hen: "In Portainer: My account → Access tokens → add." },
         { k: "portainer_insecure_tls", bool: true, de: "Selbstsigniertes Zertifikat akzeptieren", en: "Accept self-signed certificate", hde: "Im Heimnetz meist nötig (Standard: an).", hen: "Usually needed on a home network (default: on)." } ] },
-    { id: "unifi_protect", name: "UniFi Protect", emoji: "📹", icon: "unifi-protect",
-      de: "Deine Überwachungskameras von Ubiquiti.", en: "Your Ubiquiti security cameras.",
-      fields: [ { k: "unifi_protect_url", de: "Adresse der UniFi-Konsole", en: "Address of the UniFi console", ph: "https://192.168.1.1" },
-        { k: "unifi_protect_api_key", secret: true, de: "API-Schlüssel", en: "API key", hde: "In UniFi: Einstellungen → Control Plane → Integrationen → API-Schlüssel erstellen.", hen: "In UniFi: Settings → Control Plane → Integrations → create API key." },
-        { k: "unifi_protect_insecure_tls", bool: true, de: "Selbstsigniertes Zertifikat akzeptieren", en: "Accept self-signed certificate", hde: "UniFi-Geräte nutzen fast immer eins (Standard: an).", hen: "UniFi devices almost always use one (default: on)." } ] },
+    { id: "unifi", name: "UniFi", emoji: "🛜", icon: "unifi",
+      de: "Dein UniFi-Gateway: Netzwerke, WLAN, Firewall, Geräte und Clients.", en: "Your UniFi gateway: networks, Wi-Fi, firewall, devices and clients.",
+      fields: [ { k: "unifi_url", de: "Adresse des Gateways / der UniFi-Konsole", en: "Address of the gateway / UniFi console", ph: "https://192.168.1.1" },
+        { k: "unifi_api_key", secret: true, de: "API-Schlüssel", en: "API key", hde: "In UniFi: Einstellungen → Control Plane → Integrationen → API-Schlüssel erstellen.", hen: "In UniFi: Settings → Control Plane → Integrations → create API key." },
+        { k: "unifi_insecure_tls", bool: true, de: "Selbstsigniertes Zertifikat akzeptieren", en: "Accept self-signed certificate", hde: "UniFi-Geräte nutzen fast immer eins (Standard: an).", hen: "UniFi devices almost always use one (default: on)." } ] },
     { id: "n8n", name: "n8n", emoji: "🔗", icon: "n8n",
       de: "Automatisierung: Workflows bauen, starten und überwachen.", en: "Automation: build, run and monitor workflows.",
       fields: [ { k: "n8n_url", de: "Adresse", en: "Address", ph: "http://192.168.1.20:5678" },
@@ -111,7 +111,7 @@ export const PAGE_HTML = String.raw`<!doctype html>
 
   var PATHS = [
     ["/", t("Alles (für Claude Desktop / Claude Code, kein Tool-Limit)", "Everything (Claude Desktop / Claude Code, no tool limit)")],
-    ["/ha", "Home Assistant"], ["/sonarr", "Sonarr"], ["/radarr", "Radarr"], ["/sabnzbd", "SABnzbd"], ["/jellyfin", "Jellyfin"], ["/portainer", "Portainer"], ["/protect", "UniFi Protect"], ["/n8n", "n8n"]
+    ["/ha", "Home Assistant"], ["/sonarr", "Sonarr"], ["/radarr", "Radarr"], ["/sabnzbd", "SABnzbd"], ["/jellyfin", "Jellyfin"], ["/portainer", "Portainer"], ["/unifi", "UniFi"], ["/n8n", "n8n"]
   ];
 
   var state = { options: {}, secretSet: {}, edited: {}, version: "" };

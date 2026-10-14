@@ -49,10 +49,10 @@ services:
       PORTAINER_API_KEY: "CHANGE_ME"
       PORTAINER_INSECURE_TLS: "true"
 
-      UNIFI_PROTECT_ENABLED: "true"
-      UNIFI_PROTECT_URL: "https://192.168.1.1"
-      UNIFI_PROTECT_API_KEY: "CHANGE_ME"
-      UNIFI_PROTECT_INSECURE_TLS: "true"
+      UNIFI_ENABLED: "true"
+      UNIFI_URL: "https://192.168.1.1"
+      UNIFI_API_KEY: "CHANGE_ME"
+      UNIFI_INSECURE_TLS: "true"
 
       N8N_ENABLED: "true"
       N8N_URL: "http://192.168.1.20:5678"

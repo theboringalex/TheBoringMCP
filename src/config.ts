@@ -37,8 +37,8 @@ export interface RadarrConfig extends ApiKeyConfig {}
 export interface SabnzbdConfig extends ApiKeyConfig {}
 export interface N8nConfig extends ApiKeyConfig {}
 
-export interface UnifiProtectConfig extends ApiKeyConfig {
-  /** UniFi-Konsolen nutzen fast immer ein selbstsigniertes Zertifikat (Standard: true). */
+export interface UnifiConfig extends ApiKeyConfig {
+  /** UniFi-Geräte nutzen fast immer ein selbstsigniertes Zertifikat (Standard: true). */
   insecureTls: boolean;
 }
 
@@ -49,7 +49,7 @@ export interface AppConfig {
   sonarr?: SonarrConfig;
   radarr?: RadarrConfig;
   sabnzbd?: SabnzbdConfig;
-  unifiProtect?: UnifiProtectConfig;
+  unifi?: UnifiConfig;
   n8n?: N8nConfig;
   readOnly: boolean;
 }
@@ -104,9 +104,9 @@ export function loadConfig(): AppConfig {
   config.sabnzbd = apiKeyService("SABNZBD");
   config.n8n = apiKeyService("N8N");
 
-  const protect = apiKeyService("UNIFI_PROTECT");
-  if (protect) {
-    config.unifiProtect = { ...protect, insecureTls: env("UNIFI_PROTECT_INSECURE_TLS") !== "false" };
+  const unifi = apiKeyService("UNIFI");
+  if (unifi) {
+    config.unifi = { ...unifi, insecureTls: env("UNIFI_INSECURE_TLS") !== "false" };
   }
 
   return config;

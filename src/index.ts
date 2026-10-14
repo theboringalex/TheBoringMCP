@@ -10,7 +10,7 @@ import { PortainerClient } from "./clients/portainer.js";
 import { JellyfinClient } from "./clients/jellyfin.js";
 import { ArrClient } from "./clients/arr.js";
 import { SabnzbdClient } from "./clients/sabnzbd.js";
-import { UnifiProtectClient } from "./clients/unifi-protect.js";
+import { UnifiClient } from "./clients/unifi.js";
 import { N8nClient } from "./clients/n8n.js";
 import { registerHomeAssistantTools } from "./tools/homeassistant.js";
 import { registerPortainerTools } from "./tools/portainer.js";
@@ -18,14 +18,14 @@ import { registerPortainerApiTool } from "./tools/portainer-api.js";
 import { registerJellyfinTools } from "./tools/jellyfin.js";
 import { registerArrTools } from "./tools/arr.js";
 import { registerSabnzbdTools } from "./tools/sabnzbd.js";
-import { registerUnifiProtectTools } from "./tools/unifi-protect.js";
+import { registerUnifiTools } from "./tools/unifi.js";
 import { registerN8nTools } from "./tools/n8n.js";
 
 export const VERSION = "2.0.0";
 
-type ServiceKey = "ha" | "portainer" | "jellyfin" | "sonarr" | "radarr" | "sabnzbd" | "protect" | "n8n";
+type ServiceKey = "ha" | "portainer" | "jellyfin" | "sonarr" | "radarr" | "sabnzbd" | "unifi" | "n8n";
 
-const ALL: ServiceKey[] = ["ha", "portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "protect", "n8n"];
+const ALL: ServiceKey[] = ["ha", "portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "unifi", "n8n"];
 
 /**
  * URL-Pfad → Dienste. Claude.ai erlaubt pro Connector höchstens ~100 Tools,
@@ -37,15 +37,15 @@ const ROUTES: Record<string, ServiceKey[]> = {
   ha: ["ha"],
   arr: ["sonarr", "radarr"],
   media: ["jellyfin", "sabnzbd"],
-  infra: ["portainer", "protect", "n8n"],
-  rest: ["portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "protect", "n8n"], // Kompatibilität zu v1
+  infra: ["portainer", "unifi", "n8n"],
+  rest: ["portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "unifi", "n8n"], // Kompatibilität zu v1
   portainer: ["portainer"],
   jellyfin: ["jellyfin"],
   sonarr: ["sonarr"],
   radarr: ["radarr"],
   sabnzbd: ["sabnzbd"],
-  protect: ["protect"],
-  unifi: ["protect"],
+  unifi: ["unifi"],
+  protect: ["unifi"], // Alias
   n8n: ["n8n"],
 };
 
@@ -91,9 +91,9 @@ function buildMcpServer(config: AppConfig, wanted: ServiceKey[], { log = false }
     registerSabnzbdTools(server, new SabnzbdClient(config.sabnzbd), ro, counter);
     active.push("SABnzbd");
   }
-  if (want.has("protect") && config.unifiProtect) {
-    registerUnifiProtectTools(server, new UnifiProtectClient(config.unifiProtect), ro, counter);
-    active.push("UniFi Protect");
+  if (want.has("unifi") && config.unifi) {
+    registerUnifiTools(server, new UnifiClient(config.unifi), ro, counter);
+    active.push("UniFi");
   }
   if (want.has("n8n") && config.n8n) {
     registerN8nTools(server, new N8nClient(config.n8n), ro, counter);

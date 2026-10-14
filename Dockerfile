@@ -32,6 +32,6 @@ LABEL \
   io.hass.name="TheBoringMCP" \
   io.hass.description="MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi, n8n" \
   io.hass.type="addon" \
-  io.hass.version="2.0.1"
+  io.hass.version="2.0.2"
 
 CMD [ "/run.sh" ]

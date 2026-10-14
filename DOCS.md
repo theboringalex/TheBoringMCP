@@ -18,7 +18,7 @@ Open **TheBoringMCP** in the Home Assistant sidebar (Ingress). One card per app 
 
 | Option | Meaning |
 |---|---|
-| `mcp_http_token` | Password for the MCP endpoint (header `Authorization: Bearer …`). **Always set one.** |
+| `mcp_http_token` | Password for the MCP endpoint. Accepted as header `Authorization: Bearer …`, as first path segment (`/<password>/sonarr`, for Claude.ai) or as `?token=…`. **Always set one.** |
 | `read_only` | `true` = all write tools are blocked. |
 | `ha_enabled`, `ha_url`, `ha_token` | Home Assistant. Leave URL/token empty = automatic via Supervisor. |
 | `sonarr_enabled`, `sonarr_url`, `sonarr_api_key` | Sonarr (Settings → General → Security). |
@@ -49,7 +49,7 @@ Claude.ai allows ~100 tools per connector, so create **one connector per app** (
 | `/arr` `/media` `/infra` | optional bundles (Sonarr+Radarr, Jellyfin+SABnzbd, Portainer+UniFi+n8n) | ≤ 99 |
 | `/rest` | everything except Home Assistant (v1 compatibility) | – |
 
-Health check: `/healthz`.
+The paths above are appended after the password in Claude.ai: `https://<domain>/<password>/<path>`. Health check: `/healthz` (no password). Passwords in URLs are hidden in the add-on log, but your reverse proxy may log them.
 
 ### Environment variables (Docker / stdio)
 
@@ -83,7 +83,7 @@ Es startet einen [MCP](https://modelcontextprotocol.io)-Server, der Claude **vol
 
 | Option | Bedeutung |
 |---|---|
-| `mcp_http_token` | Passwort für den MCP-Zugang (Header `Authorization: Bearer …`). **Immer setzen.** |
+| `mcp_http_token` | Passwort für den MCP-Zugang. Erlaubt als Header `Authorization: Bearer …`, als erstes Pfadsegment (`/<passwort>/sonarr`, für Claude.ai) oder als `?token=…`. **Immer setzen.** |
 | `read_only` | `true` = alle schreibenden Tools gesperrt. |
 | `ha_enabled`, `ha_url`, `ha_token` | Home Assistant. URL/Token leer = automatisch über den Supervisor. |
 | `sonarr_enabled`, `sonarr_url`, `sonarr_api_key` | Sonarr (Einstellungen → Allgemein → Sicherheit). |
@@ -114,7 +114,7 @@ Claude.ai erlaubt ~100 Tools pro Connector. lege **pro Programm einen Connector*
 | `/arr` `/media` `/infra` | optional bundles (Sonarr+Radarr, Jellyfin+SABnzbd, Portainer+UniFi+n8n) | ≤ 99 |
 | `/rest` | alles außer Home Assistant (v1-Kompatibilität) | – |
 
-Health-Check: `/healthz`.
+Die Pfade oben hängen in Claude.ai hinter dem Passwort: `https://<domain>/<passwort>/<pfad>`. Health-Check: `/healthz` (ohne Passwort). Passwörter in URLs werden im Add-on-Log verborgen, dein Reverse Proxy protokolliert sie evtl.
 
 ### Umgebungsvariablen (Docker / stdio)
 

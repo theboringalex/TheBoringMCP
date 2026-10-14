@@ -7,6 +7,12 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-10-14
+
+### Geändert
+- **Anmeldung für Claude.ai:** Claude.ai bietet beim eigenen Connector kein Header-Feld. Das Passwort kann jetzt zusätzlich als erstes Pfadsegment (`/<passwort>/sonarr`) oder als `?token=` mitgegeben werden. Der Header `Authorization: Bearer …` funktioniert weiter. Das Passwort wird im Log verborgen.
+- Anleitung (Englisch und Deutsch) entsprechend korrigiert.
+
 ## [2.0.1] - 2026-10-14
 
 ### Geändert
@@ -286,6 +292,7 @@ Komplett neu aufgebaut. / Rebuilt from scratch.
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
 [Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...HEAD
+[2.0.2]: https://github.com/theboringalex/TheBoringMCP/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/theboringalex/TheBoringMCP/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...v1.3.0

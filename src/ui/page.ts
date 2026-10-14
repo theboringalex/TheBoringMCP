@@ -243,7 +243,7 @@ export const PAGE_HTML = String.raw`<!doctype html>
     var p = $("paths"); p.textContent = "";
     p.appendChild(el("div", { class: "head" }, [el("div", { class: "logo", text: "🔌" }), el("div", { class: "title" }, [el("b", { text: t("Adressen für Claude", "Addresses for Claude") }), el("small", { text: t("Claude.ai erlaubt ca. 100 Tools pro Connector – lege pro Programm einen Connector an.", "Claude.ai allows about 100 tools per connector – create one connector per app.") })])]));
     var tb = el("table");
-    PATHS.forEach(function (r) { tb.appendChild(el("tr", {}, [el("td", {}, [el("code", { text: "https://" + t("deine-domain", "your-domain") + r[0] })]), el("td", { text: r[1] })])); });
+    PATHS.forEach(function (r) { tb.appendChild(el("tr", {}, [el("td", {}, [el("code", { text: "https://" + t("deine-domain/DEIN-PASSWORT", "your-domain/YOUR-PASSWORD") + r[0] })]), el("td", { text: r[1] })])); });
     p.appendChild(el("div", { class: "body" }, [tb]));
   }
 

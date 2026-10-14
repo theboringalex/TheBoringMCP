@@ -75,22 +75,24 @@ Tip: use the **IP address** of the computer where the program runs, not `localho
 
 **Why one connector per program?** Claude.ai allows about 100 tools per connector. TheBoringMCP has over 340 in total, but **no single program has more than 100** (Home Assistant has the most with 78). So you create **one connector per program you use** – all with the same password:
 
-| Name (your choice) | Address |
+| Name (your choice) | Address (with your password in it) |
 |---|---|
-| Home Assistant | `https://mcp.example.com/ha` |
-| Sonarr | `https://mcp.example.com/sonarr` |
-| Radarr | `https://mcp.example.com/radarr` |
-| SABnzbd | `https://mcp.example.com/sabnzbd` |
-| Jellyfin | `https://mcp.example.com/jellyfin` |
-| Portainer | `https://mcp.example.com/portainer` |
-| UniFi | `https://mcp.example.com/unifi` |
-| n8n | `https://mcp.example.com/n8n` |
+| Home Assistant | `https://mcp.example.com/YOUR-PASSWORD/ha` |
+| Sonarr | `https://mcp.example.com/YOUR-PASSWORD/sonarr` |
+| Radarr | `https://mcp.example.com/YOUR-PASSWORD/radarr` |
+| SABnzbd | `https://mcp.example.com/YOUR-PASSWORD/sabnzbd` |
+| Jellyfin | `https://mcp.example.com/YOUR-PASSWORD/jellyfin` |
+| Portainer | `https://mcp.example.com/YOUR-PASSWORD/portainer` |
+| UniFi | `https://mcp.example.com/YOUR-PASSWORD/unifi` |
+| n8n | `https://mcp.example.com/YOUR-PASSWORD/n8n` |
 
 (Replace `https://mcp.example.com` with your own address – see section 6. At home you can use `http://<home-assistant-ip>:17820`.)
 
-In [claude.ai](https://claude.ai): **Settings → Connectors → Add custom connector** → enter name and address → add the header `Authorization` with the value `Bearer <your password>` (the word *Bearer*, a space, then the password from step 3) → **Save**.
+In [claude.ai](https://claude.ai): **Settings → Connectors → Add custom connector** → enter a name and the address from the table → **Add**. Claude.ai has **no field for a header**, so the password is simply part of the address (replace `YOUR-PASSWORD` with the password from step 3, e.g. `https://mcp.example.com/a1b2c3.../sonarr`). Do not leave the OAuth fields filled in – leave them empty.
 
-With **Claude Desktop / Claude Code** you can use the single address `/` which contains everything (they have no tool limit).
+⚠️ Treat this address like a password: do not share it or post it in screenshots.
+
+With **Claude Desktop / Claude Code** you can use the single address `/` which contains everything (no tool limit there). These clients can also send the password as a header: `Authorization: Bearer <password>`.
 
 <a id="en-6"></a>
 ### 6. Reach it from outside (optional)
@@ -132,7 +134,7 @@ Open a new chat with Claude, enable your connector and ask for example:
 |---|---|
 | Red ✖ "not reachable" on *Test connection* | Check IP and port. Open the address in your browser – do you see the program? Use the IP, not `localhost`. |
 | Red ✖ "access denied" | The API key is wrong or was copied with a space. Create a new key and paste again. |
-| Claude says "connector failed" | Is the add-on running (Info tab)? Is the header exactly `Bearer ` + password? Did you use the right path (`/arr` etc.)? |
+| Claude says "connector failed" | Is the add-on running (Info tab)? Is the password in the address correct (no spaces)? Did you use the right path (`/arr` etc.)? |
 | A program is missing in Claude | Is its switch on, and is it set up (green "ready")? Press *Save & restart*. |
 | "Too many tools" | One connector may contain at most ~100 tools. Use one connector per program (section 5). |
 | 403 from the internet | Your domain provider (e.g. Cloudflare "Bot Fight Mode"/WAF) may block Claude. Allow the path in a skip rule. |
@@ -226,22 +228,24 @@ Tipp: Nimm die **IP-Adresse** des Rechners, auf dem das Programm läuft – nich
 
 **Warum ein Connector pro Programm?** Claude.ai erlaubt etwa 100 Tools pro Connector. TheBoringMCP hat insgesamt über 340, aber **kein einzelnes Programm hat mehr als 100** (Home Assistant hat mit 78 die meisten). Du legst also **pro genutztem Programm einen Connector** an – überall mit demselben Passwort:
 
-| Name (frei wählbar) | Adresse |
+| Name (frei wählbar) | Adresse (mit deinem Passwort darin) |
 |---|---|
-| Home Assistant | `https://mcp.example.com/ha` |
-| Sonarr | `https://mcp.example.com/sonarr` |
-| Radarr | `https://mcp.example.com/radarr` |
-| SABnzbd | `https://mcp.example.com/sabnzbd` |
-| Jellyfin | `https://mcp.example.com/jellyfin` |
-| Portainer | `https://mcp.example.com/portainer` |
-| UniFi | `https://mcp.example.com/unifi` |
-| n8n | `https://mcp.example.com/n8n` |
+| Home Assistant | `https://mcp.example.com/DEIN-PASSWORT/ha` |
+| Sonarr | `https://mcp.example.com/DEIN-PASSWORT/sonarr` |
+| Radarr | `https://mcp.example.com/DEIN-PASSWORT/radarr` |
+| SABnzbd | `https://mcp.example.com/DEIN-PASSWORT/sabnzbd` |
+| Jellyfin | `https://mcp.example.com/DEIN-PASSWORT/jellyfin` |
+| Portainer | `https://mcp.example.com/DEIN-PASSWORT/portainer` |
+| UniFi | `https://mcp.example.com/DEIN-PASSWORT/unifi` |
+| n8n | `https://mcp.example.com/DEIN-PASSWORT/n8n` |
 
 (Ersetze `https://mcp.example.com` durch deine eigene Adresse – siehe Abschnitt 6. Zuhause geht `http://<home-assistant-ip>:17820`.)
 
-In [claude.ai](https://claude.ai): **Einstellungen → Connectors → Benutzerdefinierten Connector hinzufügen** → Name und Adresse eintragen → Header `Authorization` mit dem Wert `Bearer <dein Passwort>` hinzufügen (das Wort *Bearer*, ein Leerzeichen, dann das Passwort aus Schritt 3) → **Speichern**.
+In [claude.ai](https://claude.ai): **Einstellungen → Connectors → Benutzerdefinierten Connector hinzufügen** → Name und Adresse aus der Tabelle eintragen → **Hinzufügen**. Claude.ai hat **kein Feld für einen Header**, deshalb steht das Passwort einfach in der Adresse (ersetze `DEIN-PASSWORT` durch das Passwort aus Schritt 3, z. B. `https://mcp.example.com/a1b2c3.../sonarr`). Die OAuth-Felder bleiben leer.
 
-Mit **Claude Desktop / Claude Code** reicht die eine Adresse `/` mit allem (dort gibt es kein Tool-Limit).
+⚠️ Behandle diese Adresse wie ein Passwort: nicht weitergeben und nicht in Screenshots zeigen.
+
+Mit **Claude Desktop / Claude Code** reicht die eine Adresse `/` mit allem (dort gibt es kein Tool-Limit). Diese Programme können das Passwort auch als Header senden: `Authorization: Bearer <Passwort>`.
 
 <a id="de-6"></a>
 ### 6. Von außen erreichbar machen (optional)
@@ -283,7 +287,7 @@ Starte einen neuen Chat mit Claude, schalte deinen Connector ein und frage zum B
 |---|---|
 | Rotes ✖ „nicht erreichbar" bei *Verbindung testen* | IP und Port prüfen. Öffne die Adresse im Browser – siehst du das Programm? IP nehmen, nicht `localhost`. |
 | Rotes ✖ „Zugriff verweigert" | Der API-Schlüssel ist falsch oder wurde mit Leerzeichen kopiert. Neuen Schlüssel erzeugen und einfügen. |
-| Claude meldet „Connector fehlgeschlagen" | Läuft das Add-on (Reiter Info)? Lautet der Header genau `Bearer ` + Passwort? Stimmt der Pfad (`/arr` usw.)? |
+| Claude meldet „Connector fehlgeschlagen" | Läuft das Add-on (Reiter Info)? Steht das Passwort korrekt in der Adresse (ohne Leerzeichen)? Stimmt der Pfad (`/arr` usw.)? |
 | Ein Programm fehlt bei Claude | Ist sein Schalter an und ist es eingerichtet (grün „bereit")? *Speichern & neu starten* drücken. |
 | „Zu viele Tools" | Ein Connector darf höchstens ~100 Tools enthalten. Nutze einen Connector pro Programm (Abschnitt 5). |
 | 403 aus dem Internet | Dein Domain-Anbieter (z. B. Cloudflare „Bot Fight Mode"/WAF) blockiert evtl. Claude. Pfad in einer Skip-Regel erlauben. |

@@ -1,6 +1,6 @@
 {
   "name": "theboringmcp",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi and n8n – full read/write access, on/off switch per app",
   "type": "module",
   "main": "dist/index.js",

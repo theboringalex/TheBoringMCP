@@ -15,7 +15,7 @@ const SECRET_KEYS = [
   "mcp_http_token", "ha_token", "portainer_api_key", "jellyfin_api_key", "sonarr_api_key",
   "radarr_api_key", "sabnzbd_api_key", "unifi_api_key", "n8n_api_key",
 ];
-const VERSION = "2.0.1";
+const VERSION = "2.0.2";
 
 type Opts = Record<string, unknown>;
 

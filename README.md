@@ -54,7 +54,7 @@ Every app also has a **"master key" tool** (e.g. `sonarr_api`) so Claude can rea
 
 ### Using it with Claude.ai: why several addresses?
 
-Claude.ai accepts at most **~100 tools per connector**. That is why **every app gets its own connector** (none of them has more than 100 tools – the biggest, Home Assistant, has 78). Create one connector per app you use, all with the same password:
+Claude.ai accepts at most **~100 tools per connector**. That is why **every app gets its own connector** (none of them has more than 100 tools – the biggest, Home Assistant, has 78). Create one connector per app you use, all with the same password. Claude.ai has no header field, so the password goes into the address: `https://your-domain/<password>/sonarr`.
 
 | Connector | Address (path) | Tools |
 |---|---|---|
@@ -146,7 +146,7 @@ Jedes Programm hat zusätzlich ein **„Generalschlüssel"-Tool** (z. B. `sonarr
 
 ### Nutzung mit Claude.ai: Warum mehrere Adressen?
 
-Claude.ai erlaubt höchstens **~100 Tools pro Connector**. Deshalb bekommt **jedes Programm seinen eigenen Connector** (keins hat mehr als 100 Tools – das größte, Home Assistant, hat 78). Lege pro genutztem Programm einen Connector an, überall mit demselben Passwort:
+Claude.ai erlaubt höchstens **~100 Tools pro Connector**. Deshalb bekommt **jedes Programm seinen eigenen Connector** (keins hat mehr als 100 Tools – das größte, Home Assistant, hat 78). Lege pro genutztem Programm einen Connector an, überall mit demselben Passwort. Claude.ai hat kein Header-Feld, daher steht das Passwort in der Adresse: `https://deine-domain/<passwort>/sonarr`.
 
 | Connector | Adresse (Pfad) | Tools |
 |---|---|---|

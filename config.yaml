@@ -1,5 +1,5 @@
 name: "TheBoringMCP"
-version: "2.0.1"
+version: "2.0.2"
 slug: "theboringmcp"
 description: "One MCP server for Claude: Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi and n8n – with on/off switch per app"
 url: "https://github.com/theboringalex/TheBoringMCP"

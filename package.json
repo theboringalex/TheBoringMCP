@@ -1,6 +1,6 @@
 {
   "name": "theboringmcp",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Ein MCP-Server mit vollem Zugriff auf Home Assistant und Portainer (plus optional Jellyfin, Plex und GitHub) – für Claude & Co.",
   "type": "module",
   "main": "dist/index.js",

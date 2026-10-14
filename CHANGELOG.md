@@ -7,6 +7,32 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-14
+
+### Hinzugefügt
+- **Zugriffsschalter je App** (`enable_homeassistant|portainer|unifi|jellyfin|plex|github`,
+  ENV `ENABLE_*`, Standard: an). Aus = keine Tools, kein Client, kein Prozess,
+  die hinterlegten Zugangsdaten werden nicht verwendet.
+- **UniFi** über das Gateway: `unifi-network-mcp` 0.38.1 (sirkirby/unifi-mcp, ~210 Tools)
+  läuft als Unterprozess. Schreibrechte getrennt abschaltbar (`unifi_allow_create|update|delete`,
+  Standard: aus), Bestätigungsmodus `confirm`/`bypass`, Tool-Anzeige `lazy|eager|meta_only`.
+  Unter `read_only` sind UniFi-Schreibzugriffe auch über `unifi_execute`/`unifi_batch` gesperrt.
+- **Portainer**: `portainer_docker_proxy` (komplette Docker-API), `portainer_api_request`
+  (komplette Portainer-REST-API), `portainer_search_api` (466 Operationen), Netzwerke, Volumes,
+  Systeminfo/-Speicher, Container-Statistiken, Git-Stacks (anlegen/neu ausrollen).
+- **Home Assistant** (Lücken zu ha-mcp): `ha_config_get|set|remove_automation|script|scene`,
+  `ha_eval_template`, `ha_reload_core`, sowie über den Supervisor `ha_get_app`,
+  `ha_manage_app`, `ha_manage_updates`.
+- Virtuelles Tool `tbm_status` (Status je App: active / disabled / not_configured).
+- Add-on: `hassio_role: manager`, Übersetzungen (de/en), Passwortfelder für Zugangsdaten.
+
+### Geändert
+- Alle Tools laufen über ein Gateway (`src/gateway.ts`); Verhalten bestehender Tools unverändert.
+- Portainer-Container-Logs holen sich die Authentifizierung jetzt immer über den gemeinsamen Header-Pfad.
+
+### Nicht übernommen (ha-mcp)
+- Dateizugriff auf `/config`, Screenshot-/Browser-Tools und ha-mcp-interne Meta-Tools.
+
 ## [1.3.0] - 2026-10-13
 
 ### Entfernt

@@ -1,96 +1,136 @@
 #!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { loadConfig } from "./config.js";
+import { loadConfig, type AppConfig } from "./config.js";
 import { startHttpServer } from "./http-server.js";
+import { startAdminUi } from "./admin-ui.js";
 import { HomeAssistantClient } from "./clients/homeassistant.js";
 import { HomeAssistantWsClient } from "./clients/homeassistant-ws.js";
 import { PortainerClient } from "./clients/portainer.js";
 import { JellyfinClient } from "./clients/jellyfin.js";
-import { GithubClient } from "./clients/github.js";
-import { PlexClient } from "./clients/plex.js";
+import { ArrClient } from "./clients/arr.js";
+import { SabnzbdClient } from "./clients/sabnzbd.js";
+import { UnifiProtectClient } from "./clients/unifi-protect.js";
+import { N8nClient } from "./clients/n8n.js";
 import { registerHomeAssistantTools } from "./tools/homeassistant.js";
 import { registerPortainerTools } from "./tools/portainer.js";
-import { registerJellyfinTools } from "./tools/media.js";
-import { registerGithubTools } from "./tools/github.js";
-import { registerPlexTools } from "./tools/plex.js";
+import { registerPortainerApiTool } from "./tools/portainer-api.js";
+import { registerJellyfinTools } from "./tools/jellyfin.js";
+import { registerArrTools } from "./tools/arr.js";
+import { registerSabnzbdTools } from "./tools/sabnzbd.js";
+import { registerUnifiProtectTools } from "./tools/unifi-protect.js";
+import { registerN8nTools } from "./tools/n8n.js";
 
-const VERSION = "1.3.0";
+export const VERSION = "2.0.0";
 
-type Config = ReturnType<typeof loadConfig>;
+type ServiceKey = "ha" | "portainer" | "jellyfin" | "sonarr" | "radarr" | "sabnzbd" | "protect" | "n8n";
+
+const ALL: ServiceKey[] = ["ha", "portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "protect", "n8n"];
 
 /**
- * Baut eine frische McpServer-Instanz mit allen (je nach Konfiguration
- * aktiven) Tools auf. Wird sowohl für den stdio-Modus (einmalig) als auch
- * für den HTTP-Modus (pro Request, siehe http-server.ts) verwendet – im
- * HTTP-Streamable-Transport muss laut MCP-SDK im zustandslosen Betrieb pro
- * Request eine neue Transport-/Server-Instanz entstehen, sonst schlägt der
- * zweite `initialize`-Aufruf mit "Server already initialized" fehl.
+ * URL-Pfad → Dienste. Claude.ai erlaubt pro Connector höchstens ~100 Tools,
+ * deshalb gibt es thematische Gruppen, die jeweils darunter bleiben.
  */
-function buildMcpServer(config: Config, { log = false }: { log?: boolean } = {}) {
-  const server = new McpServer({
-    name: "theboringmcp",
-    version: VERSION,
-  });
+const ROUTES: Record<string, ServiceKey[]> = {
+  "": ALL,
+  all: ALL,
+  ha: ["ha"],
+  arr: ["sonarr", "radarr"],
+  media: ["jellyfin", "sabnzbd"],
+  infra: ["portainer", "protect", "n8n"],
+  rest: ["portainer", "jellyfin", "sonarr", "radarr", "sabnzbd", "protect", "n8n"], // Kompatibilität zu v1
+  portainer: ["portainer"],
+  jellyfin: ["jellyfin"],
+  sonarr: ["sonarr"],
+  radarr: ["radarr"],
+  sabnzbd: ["sabnzbd"],
+  protect: ["protect"],
+  unifi: ["protect"],
+  n8n: ["n8n"],
+};
 
-  const registered: string[] = [];
+export function servicesForPath(pathname: string): ServiceKey[] | undefined {
+  return ROUTES[pathname.replace(/^\/+|\/+$/g, "").toLowerCase()];
+}
 
-  if (config.homeAssistant) {
-    registerHomeAssistantTools(
-      server,
-      new HomeAssistantClient(config.homeAssistant),
-      config.readOnly,
-      new HomeAssistantWsClient(config.homeAssistant),
-    );
-    registered.push("Home Assistant");
+/**
+ * Baut eine frische McpServer-Instanz mit den (konfigurierten UND angefragten)
+ * Diensten. Im HTTP-Modus entsteht pro Request eine neue Instanz (zustandsloser
+ * Streamable-HTTP-Transport), im stdio-Modus einmalig.
+ */
+function buildMcpServer(config: AppConfig, wanted: ServiceKey[], { log = false }: { log?: boolean } = {}) {
+  const server = new McpServer({ name: "theboringmcp", version: VERSION });
+  const ro = config.readOnly;
+  const counter = { count: 0 };
+  const active: string[] = [];
+  const want = new Set(wanted);
+
+  if (want.has("ha") && config.homeAssistant) {
+    registerHomeAssistantTools(server, new HomeAssistantClient(config.homeAssistant), ro, new HomeAssistantWsClient(config.homeAssistant));
+    active.push("Home Assistant");
   }
-
-  if (config.portainer) {
-    registerPortainerTools(server, new PortainerClient(config.portainer), config.readOnly);
-    registered.push("Portainer");
+  if (want.has("portainer") && config.portainer) {
+    const client = new PortainerClient(config.portainer);
+    registerPortainerTools(server, client, ro);
+    registerPortainerApiTool(server, client, ro, counter);
+    active.push("Portainer");
   }
-
-  if (config.jellyfin) {
-    registerJellyfinTools(server, new JellyfinClient(config.jellyfin), config.readOnly);
-    registered.push("Jellyfin");
+  if (want.has("jellyfin") && config.jellyfin) {
+    registerJellyfinTools(server, new JellyfinClient(config.jellyfin), ro, counter);
+    active.push("Jellyfin");
   }
-
-  if (config.github) {
-    registerGithubTools(server, new GithubClient(config.github), config.readOnly);
-    registered.push("GitHub");
+  if (want.has("sonarr") && config.sonarr) {
+    registerArrTools(server, new ArrClient(config.sonarr), ro, "sonarr", counter);
+    active.push("Sonarr");
   }
-
-  if (config.plex) {
-    registerPlexTools(server, new PlexClient(config.plex), config.readOnly);
-    registered.push("Plex");
+  if (want.has("radarr") && config.radarr) {
+    registerArrTools(server, new ArrClient(config.radarr), ro, "radarr", counter);
+    active.push("Radarr");
+  }
+  if (want.has("sabnzbd") && config.sabnzbd) {
+    registerSabnzbdTools(server, new SabnzbdClient(config.sabnzbd), ro, counter);
+    active.push("SABnzbd");
+  }
+  if (want.has("protect") && config.unifiProtect) {
+    registerUnifiProtectTools(server, new UnifiProtectClient(config.unifiProtect), ro, counter);
+    active.push("UniFi Protect");
+  }
+  if (want.has("n8n") && config.n8n) {
+    registerN8nTools(server, new N8nClient(config.n8n), ro, counter);
+    active.push("n8n");
   }
 
   if (log) {
-    // Alles geht nach stderr, damit stdout ausschließlich für das MCP-Protokoll frei bleibt.
-    console.error(`[TheBoringMCP v${VERSION}] Aktive Dienste: ${registered.length ? registered.join(", ") : "keiner (siehe README für ENV-Variablen)"}`);
-    if (config.readOnly) {
-      console.error("[TheBoringMCP] READ_ONLY=true -> schreibende Tools sind deaktiviert.");
-    }
+    console.error(`[TheBoringMCP v${VERSION}] Aktive Dienste: ${active.length ? active.join(", ") : "keiner (siehe Anleitung im README)"}`);
+    if (ro) console.error("[TheBoringMCP] READ_ONLY=true -> schreibende Tools sind gesperrt.");
   }
-
   return server;
 }
 
 async function main() {
   const config = loadConfig();
+  const mode = (process.env.TRANSPORT ?? "stdio").toLowerCase();
 
-  const transportMode = (process.env.TRANSPORT ?? "stdio").toLowerCase();
-
-  if (transportMode === "http") {
-    buildMcpServer(config, { log: true }); // nur für die Start-Logausgabe (aktive Dienste)
+  if (mode === "http") {
+    buildMcpServer(config, ALL, { log: true });
     const port = Number(process.env.PORT ?? 17820);
-    startHttpServer(() => buildMcpServer(config), port, process.env.MCP_HTTP_TOKEN);
+    startHttpServer(
+      (pathname) => {
+        const services = servicesForPath(pathname);
+        return services ? buildMcpServer(config, services) : undefined;
+      },
+      port,
+      process.env.MCP_HTTP_TOKEN,
+    );
+    // Einstellungsseite im Home-Assistant-Add-on (Ingress)
+    if (process.env.ADMIN_UI === "true") startAdminUi(Number(process.env.ADMIN_UI_PORT ?? 8099));
     return;
   }
 
-  const server = buildMcpServer(config, { log: true });
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
+  const only = process.env.MCP_SERVICES?.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+  const wanted = only?.length ? (only.filter((s) => (ALL as string[]).includes(s)) as ServiceKey[]) : ALL;
+  const server = buildMcpServer(config, wanted, { log: true });
+  await server.connect(new StdioServerTransport());
 }
 
 main().catch((error) => {

@@ -1,0 +1,85 @@
+configuration:
+  mcp_http_token:
+    name: "🔐 Allgemein – Zugangspasswort (Token)"
+    description: "Passwort, das Claude mitschicken muss (Authorization: Bearer …). Erzeuge eins auf der Einstellungsseite (Seitenleiste)."
+  read_only:
+    name: "🔐 Allgemein – Nur-Lesen-Modus"
+    description: "Aus = Claude darf alles ändern (volle Schreibrechte). An = nur ansehen."
+  ha_enabled:
+    name: "🏠 Home Assistant – Ein/Aus"
+    description: "Home Assistant ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  ha_url:
+    name: "🏠 Home Assistant – Adresse (optional)"
+    description: "Leer lassen = automatisch (empfohlen)."
+  ha_token:
+    name: "🏠 Home Assistant – Langzeit-Zugriffstoken (optional)"
+    description: "Nur zusammen mit der Adresse oben nötig."
+  sonarr_enabled:
+    name: "📺 Sonarr – Ein/Aus"
+    description: "Sonarr ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  sonarr_url:
+    name: "📺 Sonarr – Adresse"
+    description: "z. B. http://192.168.1.20:8989"
+  sonarr_api_key:
+    name: "📺 Sonarr – API-Schlüssel"
+    description: "Sonarr: Einstellungen → Allgemein → Sicherheit."
+  radarr_enabled:
+    name: "🎬 Radarr – Ein/Aus"
+    description: "Radarr ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  radarr_url:
+    name: "🎬 Radarr – Adresse"
+    description: "z. B. http://192.168.1.20:7878"
+  radarr_api_key:
+    name: "🎬 Radarr – API-Schlüssel"
+    description: "Radarr: Einstellungen → Allgemein → Sicherheit."
+  sabnzbd_enabled:
+    name: "⬇️ SABnzbd – Ein/Aus"
+    description: "SABnzbd ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  sabnzbd_url:
+    name: "⬇️ SABnzbd – Adresse"
+    description: "z. B. http://192.168.1.20:8080"
+  sabnzbd_api_key:
+    name: "⬇️ SABnzbd – API-Schlüssel"
+    description: "SABnzbd: Einstellungen → Allgemein → Sicherheit."
+  jellyfin_enabled:
+    name: "🍿 Jellyfin – Ein/Aus"
+    description: "Jellyfin ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  jellyfin_url:
+    name: "🍿 Jellyfin – Adresse"
+    description: "z. B. http://192.168.1.20:8096"
+  jellyfin_api_key:
+    name: "🍿 Jellyfin – API-Schlüssel"
+    description: "Jellyfin: Dashboard → API-Schlüssel."
+  portainer_enabled:
+    name: "🐳 Portainer – Ein/Aus"
+    description: "Portainer ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  portainer_url:
+    name: "🐳 Portainer – Adresse"
+    description: "z. B. https://192.168.1.20:9443"
+  portainer_api_key:
+    name: "🐳 Portainer – Zugriffstoken"
+    description: "Portainer: Mein Konto → Zugriffstoken."
+  portainer_insecure_tls:
+    name: "🐳 Portainer – Selbstsigniertes Zertifikat akzeptieren"
+    description: "Im Heimnetz meist nötig."
+  unifi_protect_enabled:
+    name: "📹 UniFi Protect – Ein/Aus"
+    description: "UniFi Protect ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  unifi_protect_url:
+    name: "📹 UniFi Protect – Adresse der UniFi-Konsole"
+    description: "z. B. https://192.168.1.1"
+  unifi_protect_api_key:
+    name: "📹 UniFi Protect – API-Schlüssel"
+    description: "UniFi: Einstellungen → Control Plane → Integrationen."
+  unifi_protect_insecure_tls:
+    name: "📹 UniFi Protect – Selbstsigniertes Zertifikat akzeptieren"
+    description: "UniFi-Geräte nutzen fast immer eins."
+  n8n_enabled:
+    name: "🔗 n8n – Ein/Aus"
+    description: "n8n ein- oder ausschalten. Aus = Claude kann es nicht nutzen."
+  n8n_url:
+    name: "🔗 n8n – Adresse"
+    description: "z. B. http://192.168.1.20:5678"
+  n8n_api_key:
+    name: "🔗 n8n – API-Schlüssel"
+    description: "n8n: Einstellungen → n8n API."

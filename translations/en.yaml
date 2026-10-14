@@ -1,0 +1,85 @@
+configuration:
+  mcp_http_token:
+    name: "🔐 General – Access password (token)"
+    description: "Password Claude must send (Authorization: Bearer …). Use the settings page (sidebar) to generate one."
+  read_only:
+    name: "🔐 General – Read-only mode"
+    description: "Off = Claude may change everything (full write access). On = view only."
+  ha_enabled:
+    name: "🏠 Home Assistant – On/Off"
+    description: "Switch Home Assistant on or off. Off = Claude cannot use it."
+  ha_url:
+    name: "🏠 Home Assistant – Address (optional)"
+    description: "Leave empty = automatic (recommended)."
+  ha_token:
+    name: "🏠 Home Assistant – Long-lived access token (optional)"
+    description: "Only needed together with the address above."
+  sonarr_enabled:
+    name: "📺 Sonarr – On/Off"
+    description: "Switch Sonarr on or off. Off = Claude cannot use it."
+  sonarr_url:
+    name: "📺 Sonarr – Address"
+    description: "e.g. http://192.168.1.20:8989"
+  sonarr_api_key:
+    name: "📺 Sonarr – API key"
+    description: "Sonarr: Settings → General → Security."
+  radarr_enabled:
+    name: "🎬 Radarr – On/Off"
+    description: "Switch Radarr on or off. Off = Claude cannot use it."
+  radarr_url:
+    name: "🎬 Radarr – Address"
+    description: "e.g. http://192.168.1.20:7878"
+  radarr_api_key:
+    name: "🎬 Radarr – API key"
+    description: "Radarr: Settings → General → Security."
+  sabnzbd_enabled:
+    name: "⬇️ SABnzbd – On/Off"
+    description: "Switch SABnzbd on or off. Off = Claude cannot use it."
+  sabnzbd_url:
+    name: "⬇️ SABnzbd – Address"
+    description: "e.g. http://192.168.1.20:8080"
+  sabnzbd_api_key:
+    name: "⬇️ SABnzbd – API key"
+    description: "SABnzbd: Config → General → Security."
+  jellyfin_enabled:
+    name: "🍿 Jellyfin – On/Off"
+    description: "Switch Jellyfin on or off. Off = Claude cannot use it."
+  jellyfin_url:
+    name: "🍿 Jellyfin – Address"
+    description: "e.g. http://192.168.1.20:8096"
+  jellyfin_api_key:
+    name: "🍿 Jellyfin – API key"
+    description: "Jellyfin: Dashboard → API Keys."
+  portainer_enabled:
+    name: "🐳 Portainer – On/Off"
+    description: "Switch Portainer on or off. Off = Claude cannot use it."
+  portainer_url:
+    name: "🐳 Portainer – Address"
+    description: "e.g. https://192.168.1.20:9443"
+  portainer_api_key:
+    name: "🐳 Portainer – Access token"
+    description: "Portainer: My account → Access tokens."
+  portainer_insecure_tls:
+    name: "🐳 Portainer – Accept self-signed certificate"
+    description: "Usually needed on a home network."
+  unifi_protect_enabled:
+    name: "📹 UniFi Protect – On/Off"
+    description: "Switch UniFi Protect on or off. Off = Claude cannot use it."
+  unifi_protect_url:
+    name: "📹 UniFi Protect – Address of the UniFi console"
+    description: "e.g. https://192.168.1.1"
+  unifi_protect_api_key:
+    name: "📹 UniFi Protect – API key"
+    description: "UniFi: Settings → Control Plane → Integrations."
+  unifi_protect_insecure_tls:
+    name: "📹 UniFi Protect – Accept self-signed certificate"
+    description: "UniFi devices almost always use one."
+  n8n_enabled:
+    name: "🔗 n8n – On/Off"
+    description: "Switch n8n on or off. Off = Claude cannot use it."
+  n8n_url:
+    name: "🔗 n8n – Address"
+    description: "e.g. http://192.168.1.20:5678"
+  n8n_api_key:
+    name: "🔗 n8n – API key"
+    description: "n8n: Settings → n8n API."

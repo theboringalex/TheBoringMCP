@@ -1,13 +1,14 @@
 /**
- * Zentrale Konfiguration für TheBoringMCP.
+ * Zentrale Konfiguration für TheBoringMCP v2.
  *
  * Alles kommt aus Umgebungsvariablen (12-factor-Stil) – so lässt sich der
- * Server sowohl als Home Assistant Add-on (Optionen -> ENV via run.sh)
- * als auch als eigenständiger Docker-Container oder lokal per `npx`
- * betreiben, ohne dass irgendwo Secrets im Repo landen.
+ * Server sowohl als Home Assistant Add-on (Optionen -> ENV via run.sh) als
+ * auch als eigenständiger Docker-Container oder lokal betreiben, ohne dass
+ * irgendwo Secrets im Repo landen.
  *
- * Jeder Dienst ist einzeln optional: Ist z.B. keine PORTAINER_URL gesetzt,
- * werden die Portainer-Tools beim Start einfach nicht registriert.
+ * Jeder Dienst ist einzeln optional und lässt sich mit <DIENST>_ENABLED=false
+ * ausschalten (z. B. SONARR_ENABLED=false). Ist keine URL / kein Schlüssel
+ * gesetzt, wird der Dienst automatisch übersprungen.
  */
 
 export interface HomeAssistantConfig {
@@ -20,43 +21,40 @@ export interface PortainerConfig {
   apiKey?: string;
   username?: string;
   password?: string;
-  /**
-   * Portainer läuft im Heimnetz häufig mit einem selbstsignierten
-   * TLS-Zertifikat (z.B. https://<nas-ip>:9444). Node's `fetch` lehnt das
-   * standardmäßig ab ("fetch failed"). Default: true, da genau dieser Fall
-   * die Norm ist; per PORTAINER_INSECURE_TLS=false abschaltbar, sobald ein
-   * gültiges/vertrauenswürdiges Zertifikat vorliegt.
-   */
+  /** Selbstsignierte Zertifikate akzeptieren (Standard: true, typisch im Heimnetz). */
   insecureTls: boolean;
 }
 
-export interface JellyfinConfig {
+/** Gemeinsame Form für Dienste mit URL + API-Schlüssel. */
+export interface ApiKeyConfig {
   baseUrl: string;
   apiKey: string;
 }
 
-export interface GithubConfig {
-  /** API-Basis-URL, für GitHub Enterprise Server anpassbar (Standard: https://api.github.com). */
-  baseUrl: string;
-  token: string;
-}
+export interface JellyfinConfig extends ApiKeyConfig {}
+export interface SonarrConfig extends ApiKeyConfig {}
+export interface RadarrConfig extends ApiKeyConfig {}
+export interface SabnzbdConfig extends ApiKeyConfig {}
+export interface N8nConfig extends ApiKeyConfig {}
 
-export interface PlexConfig {
-  baseUrl: string;
-  /** X-Plex-Token (Einstellungen -> Netzwerk -> "Token anzeigen", oder https://plex.tv/claim). */
-  token: string;
+export interface UnifiProtectConfig extends ApiKeyConfig {
+  /** UniFi-Konsolen nutzen fast immer ein selbstsigniertes Zertifikat (Standard: true). */
+  insecureTls: boolean;
 }
 
 export interface AppConfig {
   homeAssistant?: HomeAssistantConfig;
   portainer?: PortainerConfig;
   jellyfin?: JellyfinConfig;
-  github?: GithubConfig;
-  plex?: PlexConfig;
+  sonarr?: SonarrConfig;
+  radarr?: RadarrConfig;
+  sabnzbd?: SabnzbdConfig;
+  unifiProtect?: UnifiProtectConfig;
+  n8n?: N8nConfig;
   readOnly: boolean;
 }
 
-function trimTrailingSlash(url: string): string {
+export function trimTrailingSlash(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
@@ -65,33 +63,32 @@ function env(name: string): string | undefined {
   return value && value.trim().length > 0 ? value.trim() : undefined;
 }
 
+/** Dienst ist an, solange <PREFIX>_ENABLED nicht ausdrücklich "false" ist. */
+function enabled(prefix: string): boolean {
+  return env(`${prefix}_ENABLED`)?.toLowerCase() !== "false";
+}
+
+function apiKeyService(prefix: string): ApiKeyConfig | undefined {
+  if (!enabled(prefix)) return undefined;
+  const url = env(`${prefix}_URL`);
+  const key = env(`${prefix}_API_KEY`);
+  return url && key ? { baseUrl: trimTrailingSlash(url), apiKey: key } : undefined;
+}
+
 export function loadConfig(): AppConfig {
+  const config: AppConfig = { readOnly: env("READ_ONLY")?.toLowerCase() === "true" };
+
   const haUrl = env("HA_URL");
   const haToken = env("HA_TOKEN");
+  if (enabled("HA") && haUrl && haToken) {
+    config.homeAssistant = { baseUrl: trimTrailingSlash(haUrl), token: haToken };
+  }
 
   const portainerUrl = env("PORTAINER_URL");
   const portainerApiKey = env("PORTAINER_API_KEY");
   const portainerUsername = env("PORTAINER_USERNAME");
   const portainerPassword = env("PORTAINER_PASSWORD");
-
-  const jellyfinUrl = env("JELLYFIN_URL");
-  const jellyfinKey = env("JELLYFIN_API_KEY");
-
-  const githubToken = env("GITHUB_TOKEN");
-  const githubApiUrl = env("GITHUB_API_URL");
-
-  const plexUrl = env("PLEX_URL");
-  const plexToken = env("PLEX_TOKEN");
-
-  const config: AppConfig = {
-    readOnly: env("READ_ONLY") === "true",
-  };
-
-  if (haUrl && haToken) {
-    config.homeAssistant = { baseUrl: trimTrailingSlash(haUrl), token: haToken };
-  }
-
-  if (portainerUrl && (portainerApiKey || (portainerUsername && portainerPassword))) {
+  if (enabled("PORTAINER") && portainerUrl && (portainerApiKey || (portainerUsername && portainerPassword))) {
     config.portainer = {
       baseUrl: trimTrailingSlash(portainerUrl),
       apiKey: portainerApiKey,
@@ -101,16 +98,15 @@ export function loadConfig(): AppConfig {
     };
   }
 
-  if (jellyfinUrl && jellyfinKey) {
-    config.jellyfin = { baseUrl: trimTrailingSlash(jellyfinUrl), apiKey: jellyfinKey };
-  }
+  config.jellyfin = apiKeyService("JELLYFIN");
+  config.sonarr = apiKeyService("SONARR");
+  config.radarr = apiKeyService("RADARR");
+  config.sabnzbd = apiKeyService("SABNZBD");
+  config.n8n = apiKeyService("N8N");
 
-  if (githubToken) {
-    config.github = { baseUrl: trimTrailingSlash(githubApiUrl ?? "https://api.github.com"), token: githubToken };
-  }
-
-  if (plexUrl && plexToken) {
-    config.plex = { baseUrl: trimTrailingSlash(plexUrl), token: plexToken };
+  const protect = apiKeyService("UNIFI_PROTECT");
+  if (protect) {
+    config.unifiProtect = { ...protect, insecureTls: env("UNIFI_PROTECT_INSECURE_TLS") !== "false" };
   }
 
   return config;

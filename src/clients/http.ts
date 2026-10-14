@@ -11,7 +11,7 @@ import { Agent } from "undici";
 // gecachten undici-Agent mit rejectUnauthorized:false statt die
 // TLS-Prüfung global abzuschalten.
 let insecureAgent: Agent | undefined;
-function getInsecureAgent(): Agent {
+export function getInsecureAgent(): Agent {
   if (!insecureAgent) {
     insecureAgent = new Agent({ connect: { rejectUnauthorized: false } });
   }

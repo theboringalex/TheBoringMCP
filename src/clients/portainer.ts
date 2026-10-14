@@ -28,7 +28,7 @@ export class PortainerClient {
     return { Authorization: `Bearer ${this.jwt}` };
   }
 
-  private async api<T>(path: string, opts: Parameters<typeof request>[2] = {}): Promise<T> {
+  async api<T>(path: string, opts: Parameters<typeof request>[2] = {}): Promise<T> {
     const auth = await this.authHeader();
     return request<T>(this.cfg.baseUrl, `/api${path}`, {
       ...opts,

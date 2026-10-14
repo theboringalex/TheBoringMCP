@@ -1,4 +1,4 @@
-# TheBoringMCP – Add-on Documentation
+# TheBoringMCP v2 – Add-on Documentation
 
 🇬🇧 **[English](#english)** · 🇩🇪 **[Deutsch](#deutsch)**
 
@@ -8,81 +8,64 @@
 
 ### What does this add-on do?
 
-It starts an [MCP](https://modelcontextprotocol.io) server (Model Context
-Protocol) that gives Claude (or any other MCP-capable client) **full
-access** to the following systems:
+It starts an [MCP](https://modelcontextprotocol.io) server that gives Claude **full read/write access** to eight apps: **Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi Protect and n8n**. Every app has its own on/off switch. New to this? Read the [beginner guide](INSTALL.md#english).
 
-- **Home Assistant** – read/set states, call any service, create, change,
-  and delete automations/scripts/scenes, restart Core, read logs &
-  history, plus (via an additional WebSocket connection, using the same
-  URL/token) Areas/Floors/Labels/Categories, device & entity registry,
-  helpers, dashboards, calendar, to-do lists, integrations, energy
-  preferences, Assist pipelines, backups, blueprints, and more.
-- **Portainer** – environments, containers (create, start, stop, restart,
-  delete), images (pull, delete), stacks (create, update, delete
-  Compose).
-- **Jellyfin** – browse the library, control sessions, trigger scans.
-- **Plex** – browse libraries, trigger scans, edit metadata, mark items as
-  watched/unwatched, cancel playback sessions, empty trash, delete items.
-- **GitHub** – check/search repositories, read branches & files, create,
-  change, and delete files (upload), list and create commits/issues/pull
-  requests, create repos.
+### Settings page
 
-Every service is **optional**: if you don't enter a Portainer URL, for
-example, the Portainer tools simply aren't offered.
+Open **TheBoringMCP** in the Home Assistant sidebar (Ingress). One card per app with logo, on/off switch, address, key and a **Test connection** button. Secrets are never shown again after saving (leave a field empty to keep the stored value). The normal **Configuration** tab shows the same options.
 
-### Setup
+### Options
 
-1. **Home Assistant**: By default `homeassistant_api: true` is enabled,
-   and the add-on automatically receives a Supervisor token with access
-   to the Core API – you don't need to enter anything. If you want to
-   address an external HA instance instead, enter `ha_url` and a
-   Long-Lived Access Token under `ha_token`.
-2. **Portainer**: `portainer_url` (e.g. `https://192.168.1.11:9444`) and
-   an API key from *My Account -> Access Tokens* under
-   `portainer_api_key`. `portainer_insecure_tls` defaults to `true`
-   because Portainer usually uses a self-signed certificate on home
-   networks – switch to `false` once a valid/trusted certificate is in
-   place.
-3. **Jellyfin**: URL + API key from the app's settings (*Dashboard -> API Keys*).
-4. **GitHub**: enter a Personal Access Token (fine-grained, scoped to the
-   desired repos, or classic with the `repo` scope) under `github_token`.
-   `github_api_url` is only needed for GitHub Enterprise Server (default:
-   `https://api.github.com`).
-5. **Plex**: enter `plex_url` (e.g. `http://192.168.1.5:32400`) and your
-   `X-Plex-Token` under `plex_token`. You can find the token e.g. via the
-   Plex web app: open any media item -> "..." -> "Get Info" -> "View
-   XML" -> the URL contains `X-Plex-Token=...` (see also the
-   [official guide](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)).
-6. **mcp_http_token** (required): a self-chosen, long random password.
-   The MCP server is reachable via HTTP on port `17820` – every request
-   needs the header `Authorization: Bearer <mcp_http_token>`. **Without
-   this token, anyone on the network would have full access to all the
-   systems listed above.**
-7. Optional: `read_only: true` disables all writing/controlling tools
-   (read-only access).
+| Option | Meaning |
+|---|---|
+| `mcp_http_token` | Password for the MCP endpoint (header `Authorization: Bearer …`). **Always set one.** |
+| `read_only` | `true` = all write tools are blocked. |
+| `ha_enabled`, `ha_url`, `ha_token` | Home Assistant. Leave URL/token empty = automatic via Supervisor. |
+| `sonarr_enabled`, `sonarr_url`, `sonarr_api_key` | Sonarr (Settings → General → Security). |
+| `radarr_enabled`, `radarr_url`, `radarr_api_key` | Radarr. |
+| `sabnzbd_enabled`, `sabnzbd_url`, `sabnzbd_api_key` | SABnzbd. |
+| `jellyfin_enabled`, `jellyfin_url`, `jellyfin_api_key` | Jellyfin (Dashboard → API Keys). |
+| `portainer_enabled`, `portainer_url`, `portainer_api_key`, `portainer_insecure_tls` | Portainer (My account → Access tokens). |
+| `unifi_protect_enabled`, `unifi_protect_url`, `unifi_protect_api_key`, `unifi_protect_insecure_tls` | UniFi Protect (Control Plane → Integrations). |
+| `n8n_enabled`, `n8n_url`, `n8n_api_key` | n8n (Settings → n8n API). |
 
-### Connecting Claude
+An app is active when it is **enabled and has an address and key**. Otherwise its tools are not offered.
 
-Since the Home Assistant extension (~80 HA tools via the WebSocket API),
-a single MCP server with all services would exceed Claude connectors'
-100-tool limit – anything beyond that is silently cut off by the
-connector. That's why the server offers two paths, set up as **two
-separate connectors** (both using the same token):
+### Addresses (paths) and tool limit
 
-| Connector | URL | Contains |
+Claude.ai allows ~100 tools per connector, so create **one connector per app** (same token); no app has more than 100 tools:
+
+| Path | Contains | Tools |
 |---|---|---|
-| TheBoringMCP-HA | `http://<home-assistant-ip>:17820/` | Home Assistant (~80 tools) |
-| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub (~55 tools) |
+| `/ha` | Home Assistant | 78 |
+| `/sonarr` | Sonarr | 52 |
+| `/radarr` | Radarr | 47 |
+| `/sabnzbd` | SABnzbd | 25 |
+| `/jellyfin` | Jellyfin | 28 |
+| `/portainer` | Portainer | 22 |
+| `/protect` | UniFi Protect | 29 |
+| `/n8n` | n8n | 35 |
+| `/` | everything | 316 |
+| `/arr` `/media` `/infra` | optional bundles (Sonarr+Radarr, Jellyfin+SABnzbd, Portainer+Protect+n8n) | ≤ 99 |
+| `/rest` | everything except Home Assistant (v1 compatibility) | – |
 
-For both: **Header**: `Authorization: Bearer <your mcp_http_token>`
+Health check: `/healthz`.
+
+### Environment variables (Docker / stdio)
+
+Same names as the options in capital letters: `HA_URL`, `HA_TOKEN`, `SONARR_URL`, `SONARR_API_KEY`, `RADARR_*`, `SABNZBD_*`, `JELLYFIN_*`, `PORTAINER_URL`, `PORTAINER_API_KEY` (or `PORTAINER_USERNAME` + `PORTAINER_PASSWORD`), `PORTAINER_INSECURE_TLS`, `UNIFI_PROTECT_URL`, `UNIFI_PROTECT_API_KEY`, `UNIFI_PROTECT_INSECURE_TLS`, `N8N_URL`, `N8N_API_KEY`. Switch an app off with `<APP>_ENABLED=false`. Also: `READ_ONLY`, `TRANSPORT` (`stdio`|`http`), `PORT` (17820), `MCP_HTTP_TOKEN`, `MCP_SERVICES` (stdio only, e.g. `sonarr,radarr`).
+
+### Master-key tools
+
+Each app has a generic tool (`sonarr_api`, `radarr_api`, `jellyfin_api`, `portainer_api`, `protect_api`, `n8n_api`) for any API call without a dedicated tool. `GET` works always; other methods are blocked in read-only mode.
+
+### UniFi Protect notes
+
+Uses the official Protect *Integration API* (API key). Camera snapshots are returned as images. Features that only exist in the private Protect API (e.g. event history) are not covered.
 
 ### Security notice
 
-This add-on grants full, unfiltered write access to Home Assistant and
-Portainer. Be sure to set a strong `mcp_http_token`, don't expose the
-port directly to the internet without a reverse proxy with TLS, and use
-`read_only: true` if you only want to build reports/dashboards.
+This add-on grants full, unfiltered write access. Set a strong `mcp_http_token`, never expose the port without HTTPS, and use `read_only: true` for look-only use.
 
 ---
 
@@ -90,80 +73,61 @@ port directly to the internet without a reverse proxy with TLS, and use
 
 ### Was macht dieses Add-on?
 
-Es startet einen [MCP](https://modelcontextprotocol.io)-Server (Model Context
-Protocol), über den Claude (oder ein anderer MCP-fähiger Client) **vollen
-Zugriff** auf folgende Systeme bekommt:
+Es startet einen [MCP](https://modelcontextprotocol.io)-Server, der Claude **vollen Lese- und Schreibzugriff** auf acht Programme gibt: **Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, UniFi Protect und n8n**. Jedes Programm hat einen eigenen Ein/Aus-Schalter. Neu dabei? Lies die [Einsteiger-Anleitung](INSTALL.md#deutsch).
 
-- **Home Assistant** – Zustände lesen/setzen, beliebige Services aufrufen,
-  Automationen/Skripte/Szenen anlegen, ändern, löschen, Core neu starten,
-  Logs & History auslesen, sowie (über eine zusätzliche
-  WebSocket-Verbindung, nutzt dieselbe URL/Token) Areas/Floors/Labels/
-  Categories, Geräte- & Entity-Registry, Helper, Dashboards, Kalender,
-  To-do-Listen, Integrationen, Energie-Prefs, Assist-Pipelines, Backups,
-  Blueprints und mehr.
-- **Portainer** – Environments, Container (erstellen, starten, stoppen,
-  neu starten, löschen), Images (pullen, löschen), Stacks (Compose anlegen,
-  aktualisieren, löschen).
-- **Jellyfin** – Bibliothek durchsuchen, Sessions steuern, Scans anstoßen.
-- **Plex** – Bibliotheken durchsuchen, Scans anstoßen, Metadaten bearbeiten,
-  Elemente als angesehen/unangesehen markieren, Wiedergabe-Sessions
-  abbrechen, Papierkorb leeren, Elemente löschen.
-- **GitHub** – Repositories prüfen/durchsuchen, Branches & Dateien lesen,
-  Dateien anlegen/ändern/löschen (Upload), Commits/Issues/Pull-Requests
-  auflisten und erstellen, Repos anlegen.
+### Einstellungsseite
 
-Jeder Dienst ist **optional**: Trägst du z.B. keine Portainer-URL ein, werden
-die Portainer-Tools einfach nicht angeboten.
+**TheBoringMCP** in der Seitenleiste von Home Assistant öffnen (Ingress). Eine Karte pro Programm mit Logo, Ein/Aus-Schalter, Adresse, Schlüssel und **Verbindung testen**. Geheimnisse werden nach dem Speichern nie wieder angezeigt (Feld leer lassen = gespeicherten Wert behalten). Der normale Reiter **Konfiguration** zeigt dieselben Optionen.
 
-### Einrichtung
+### Optionen
 
-1. **Home Assistant**: Standardmäßig ist `homeassistant_api: true` aktiv,
-   das Add-on bekommt automatisch einen Supervisor-Token mit Zugriff auf die
-   Core-API – du musst nichts eintragen. Willst du stattdessen eine externe
-   HA-Instanz ansprechen, trage `ha_url` und ein Long-Lived Access Token
-   unter `ha_token` ein.
-2. **Portainer**: `portainer_url` (z.B. `https://192.168.1.11:9444`) und
-   einen API-Key aus *My Account -> Access Tokens* unter `portainer_api_key`.
-   `portainer_insecure_tls` ist standardmäßig `true`, weil Portainer im
-   Heimnetz meist ein selbstsigniertes Zertifikat nutzt – auf `false`
-   umstellen, sobald ein gültiges/vertrauenswürdiges Zertifikat vorliegt.
-3. **Jellyfin**: URL + API-Key aus den Einstellungen der App
-   (*Dashboard -> API Keys*).
-4. **GitHub**: einen Personal Access Token (fine-grained, mit Zugriff auf die
-   gewünschten Repos, oder classic mit `repo`-Scope) unter `github_token`
-   eintragen. `github_api_url` nur für GitHub Enterprise Server nötig
-   (Standard: `https://api.github.com`).
-5. **Plex**: `plex_url` (z.B. `http://192.168.1.5:32400`) und deinen
-   `X-Plex-Token` unter `plex_token` eintragen. Den Token findest du z.B.
-   über die Plex-Web-App: ein beliebiges Medienelement öffnen -> "..." ->
-   "Info abrufen" -> "XML anzeigen" -> in der URL steht `X-Plex-Token=...`
-   (siehe auch die [offizielle Anleitung](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)).
-6. **mcp_http_token** (Pflichtfeld): ein selbst gewähltes, langes zufälliges
-   Passwort. Der MCP-Server ist per HTTP auf Port `17820` erreichbar –
-   jeder Request braucht den Header `Authorization: Bearer <mcp_http_token>`.
-   **Ohne dieses Token hätte jeder im Netzwerk vollen Zugriff auf alle
-   oben genannten Systeme.**
-7. Optional: `read_only: true` deaktiviert alle schreibenden/steuernden
-   Tools (nur Lesezugriff).
+| Option | Bedeutung |
+|---|---|
+| `mcp_http_token` | Passwort für den MCP-Zugang (Header `Authorization: Bearer …`). **Immer setzen.** |
+| `read_only` | `true` = alle schreibenden Tools gesperrt. |
+| `ha_enabled`, `ha_url`, `ha_token` | Home Assistant. URL/Token leer = automatisch über den Supervisor. |
+| `sonarr_enabled`, `sonarr_url`, `sonarr_api_key` | Sonarr (Einstellungen → Allgemein → Sicherheit). |
+| `radarr_enabled`, `radarr_url`, `radarr_api_key` | Radarr. |
+| `sabnzbd_enabled`, `sabnzbd_url`, `sabnzbd_api_key` | SABnzbd. |
+| `jellyfin_enabled`, `jellyfin_url`, `jellyfin_api_key` | Jellyfin (Dashboard → API-Schlüssel). |
+| `portainer_enabled`, `portainer_url`, `portainer_api_key`, `portainer_insecure_tls` | Portainer (Mein Konto → Zugriffstoken). |
+| `unifi_protect_enabled`, `unifi_protect_url`, `unifi_protect_api_key`, `unifi_protect_insecure_tls` | UniFi Protect (Control Plane → Integrationen). |
+| `n8n_enabled`, `n8n_url`, `n8n_api_key` | n8n (Einstellungen → n8n API). |
 
-### Claude anbinden
+Ein Programm ist aktiv, wenn es **eingeschaltet ist und Adresse sowie Schlüssel hat**. Sonst werden seine Tools nicht angeboten.
 
-Seit der Home-Assistant-Erweiterung (~80 HA-Tools über die WebSocket-API)
-würde ein einzelner MCP-Server mit allen Diensten das 100-Tool-Limit von
-Claude-Connectoren reißen – alles darüber wird vom Connector kommentarlos
-abgeschnitten. Deshalb bietet der Server zwei Pfade an, die als **zwei
-separate Connectoren** angelegt werden (beide mit demselben Token):
+### Adressen (Pfade) und Tool-Limit
 
-| Connector | URL | Enthält |
+Claude.ai erlaubt ~100 Tools pro Connector. lege **pro Programm einen Connector** an (gleiches Token); kein Programm hat mehr als 100 Tools:
+
+| Pfad | Enthält | Tools |
 |---|---|---|
-| TheBoringMCP-HA | `http://<home-assistant-ip>:17820/` | Home Assistant (~80 Tools) |
-| TheBoringMCP-Rest | `http://<home-assistant-ip>:17820/rest` | Portainer, Jellyfin, Plex, GitHub (~55 Tools) |
+| `/ha` | Home Assistant | 78 |
+| `/sonarr` | Sonarr | 52 |
+| `/radarr` | Radarr | 47 |
+| `/sabnzbd` | SABnzbd | 25 |
+| `/jellyfin` | Jellyfin | 28 |
+| `/portainer` | Portainer | 22 |
+| `/protect` | UniFi Protect | 29 |
+| `/n8n` | n8n | 35 |
+| `/` | alles | 316 |
+| `/arr` `/media` `/infra` | optional bundles (Sonarr+Radarr, Jellyfin+SABnzbd, Portainer+Protect+n8n) | ≤ 99 |
+| `/rest` | alles außer Home Assistant (v1-Kompatibilität) | – |
 
-Für beide: **Header**: `Authorization: Bearer <dein mcp_http_token>`
+Health-Check: `/healthz`.
+
+### Umgebungsvariablen (Docker / stdio)
+
+Gleiche Namen wie die Optionen in Großbuchstaben: `HA_URL`, `HA_TOKEN`, `SONARR_URL`, `SONARR_API_KEY`, `RADARR_*`, `SABNZBD_*`, `JELLYFIN_*`, `PORTAINER_URL`, `PORTAINER_API_KEY` (oder `PORTAINER_USERNAME` + `PORTAINER_PASSWORD`), `PORTAINER_INSECURE_TLS`, `UNIFI_PROTECT_URL`, `UNIFI_PROTECT_API_KEY`, `UNIFI_PROTECT_INSECURE_TLS`, `N8N_URL`, `N8N_API_KEY`. Ein Programm ausschalten: `<APP>_ENABLED=false`. Außerdem: `READ_ONLY`, `TRANSPORT` (`stdio`|`http`), `PORT` (17820), `MCP_HTTP_TOKEN`, `MCP_SERVICES` (nur stdio, z. B. `sonarr,radarr`).
+
+### Generalschlüssel-Tools
+
+Jedes Programm hat ein generisches Tool (`sonarr_api`, `radarr_api`, `jellyfin_api`, `portainer_api`, `protect_api`, `n8n_api`) für jeden API-Aufruf ohne eigenes Tool. `GET` geht immer; andere Methoden sind im Nur-Lesen-Modus gesperrt.
+
+### Hinweise zu UniFi Protect
+
+Nutzt die offizielle Protect-*Integration-API* (API-Schlüssel). Kamera-Standbilder kommen als Bild zurück. Funktionen, die nur in der privaten Protect-API existieren (z. B. Ereignisverlauf), sind nicht abgedeckt.
 
 ### Sicherheitshinweis
 
-Dieses Add-on gibt vollen, ungefilterten Schreibzugriff auf Home Assistant
-und Portainer. Setze unbedingt ein starkes `mcp_http_token`, exponiere den
-Port nicht direkt ins Internet ohne Reverse Proxy mit TLS, und nutze
-`read_only: true`, falls du nur Auswertungen/Dashboards bauen willst.
+Dieses Add-on gibt vollen, ungefilterten Schreibzugriff. Setze ein starkes `mcp_http_token`, öffne den Port nie ohne HTTPS und nutze `read_only: true` für reines Ansehen.

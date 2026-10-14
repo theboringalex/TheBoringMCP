@@ -19,7 +19,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * passenden `Authorization: Bearer <token>`-Header mitbringen – sonst
  * gäbe jeder mit Netzwerkzugriff vollen Zugriff auf HA/Portainer/etc.
  */
-export function startHttpServer(createMcpServer: (pathname: string) => McpServer, port: number, authToken?: string) {
+export function startHttpServer(createMcpServer: (pathname: string) => McpServer | undefined, port: number, authToken?: string) {
   const httpServer = createServer((req, res) => {
     console.error(
       `[TheBoringMCP] Eingehend: ${req.method} ${req.url} von ${req.socket.remoteAddress} ` +
@@ -66,6 +66,10 @@ export function startHttpServer(createMcpServer: (pathname: string) => McpServer
     });
     const pathname = (req.url ?? "/").split("?")[0];
     const mcpServer = createMcpServer(pathname);
+    if (!mcpServer) {
+      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "unknown_path", hint: "Gültige Pfade: / /ha /arr /media /infra /sonarr /radarr /sabnzbd /jellyfin /portainer /protect /n8n" }));
+      return;
+    }
 
     res.on("close", () => {
       transport.close().catch(() => {});
@@ -85,7 +89,7 @@ export function startHttpServer(createMcpServer: (pathname: string) => McpServer
   httpServer.listen(port, () => {
     console.error(
       `[TheBoringMCP] HTTP(Streamable)-Transport lauscht auf Port ${port} ` +
-        `(Pfad: / = Home Assistant, /rest = alle anderen Dienste, Health: /healthz)`,
+        `(Pfade: / = alles, /ha, /arr, /media, /infra, Einzeldienste z. B. /sonarr; Health: /healthz)`,
     );
     if (!authToken) {
       console.error("[TheBoringMCP] WARNUNG: Kein MCP_HTTP_TOKEN gesetzt – der Server ist ungeschützt erreichbar!");

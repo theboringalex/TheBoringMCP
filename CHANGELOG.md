@@ -7,6 +7,27 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-14
+
+Komplett neu aufgebaut. / Rebuilt from scratch.
+
+### Hinzugefügt
+- **Acht Dienste mit vollem Schreibzugriff:** Home Assistant, Sonarr, Radarr, SABnzbd, Jellyfin, Portainer, **UniFi Protect** (neu) und **n8n** (neu).
+- Sonarr/Radarr/SABnzbd wieder da – mit deutlich mehr Tools (Profile, Custom Formats, Tags, Release-Suche, Blocklist, Konfiguration, Bulk-Edit …); Jellyfin von 8 auf 33 Tools erweitert.
+- **Generalschlüssel-Tool** pro Dienst (`sonarr_api`, `radarr_api`, `jellyfin_api`, `portainer_api`, `protect_api`, `n8n_api`) für jede API-Funktion ohne eigenes Tool.
+- **Einstellungsseite** (Ingress, Seitenleiste): eine Karte pro Dienst mit Logo, Ein/Aus-Schalter, Eingabefeldern, „Verbindung testen" und Token-Generator. Geheimnisse werden nie zurück an den Browser geschickt.
+- **Ein/Aus-Schalter pro Dienst** (`<dienst>_enabled` / `<DIENST>_ENABLED`), Add-on-Optionen nach Dienst gruppiert, Übersetzungen (en/de) für die Konfigurationsseite.
+- **Pfad-Routing** wegen des 100-Tool-Limits von Claude.ai: ein Connector pro Programm (`/ha`, `/sonarr`, `/radarr`, `/sabnzbd`, `/jellyfin`, `/portainer`, `/protect`, `/n8n`; keins hat mehr als 100 Tools), `/` für alles, optionale Bündel `/arr` `/media` `/infra`; `/rest` bleibt kompatibel.
+- Kamera-Standbilder von UniFi Protect werden als Bild zurückgegeben.
+- Neue, einsteigerfreundliche Dokumentation (Englisch und Deutsch).
+
+### Geändert
+- Der Pfad `/` enthält jetzt **alle** Dienste (vorher nur Home Assistant). Für Claude.ai bitte die Gruppenpfade verwenden.
+- Das Passwort-Feld `mcp_http_token` und alle Schlüssel sind im Add-on als Passwortfelder markiert.
+
+### Entfernt
+- **Plex** und **GitHub** (nicht mehr Teil von v2; für GitHub gibt es den offiziellen GitHub-MCP-Server). Gespeicherte `plex_*`/`github_*`-Optionen werden vom Supervisor verworfen.
+
 ## [1.3.0] - 2026-10-13
 
 ### Entfernt
@@ -260,6 +281,7 @@ dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Doku (`README.md`, `DOCS.md`), MIT-Lizenz.
 
 [Unreleased]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...HEAD
+[2.0.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.4.0...v1.1.0
 [0.3.0]: https://github.com/theboringalex/TheBoringMCP/compare/v0.2.0...v0.3.0

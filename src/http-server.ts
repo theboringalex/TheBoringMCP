@@ -1,6 +1,12 @@
 import { createServer } from "node:http";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
+
+/** Minimales Interface: McpServer oder ToolGateway. */
+export interface ConnectableServer {
+  connect(transport: Transport): Promise<void>;
+  close(): Promise<void>;
+}
 
 /**
  * Startet TheBoringMCP als HTTP-Server (Streamable-HTTP-Transport, zustandslos),
@@ -19,7 +25,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * passenden `Authorization: Bearer <token>`-Header mitbringen – sonst
  * gäbe jeder mit Netzwerkzugriff vollen Zugriff auf HA/Portainer/etc.
  */
-export function startHttpServer(createMcpServer: (pathname: string) => McpServer, port: number, authToken?: string) {
+export function startHttpServer(createMcpServer: (pathname: string) => ConnectableServer, port: number, authToken?: string) {
   const httpServer = createServer((req, res) => {
     console.error(
       `[TheBoringMCP] Eingehend: ${req.method} ${req.url} von ${req.socket.remoteAddress} ` +
@@ -69,6 +75,7 @@ export function startHttpServer(createMcpServer: (pathname: string) => McpServer
 
     res.on("close", () => {
       transport.close().catch(() => {});
+      mcpServer.close().catch(() => {});
     });
 
     mcpServer
@@ -85,7 +92,7 @@ export function startHttpServer(createMcpServer: (pathname: string) => McpServer
   httpServer.listen(port, () => {
     console.error(
       `[TheBoringMCP] HTTP(Streamable)-Transport lauscht auf Port ${port} ` +
-        `(Pfad: / = Home Assistant, /rest = alle anderen Dienste, Health: /healthz)`,
+        `(alle aktiven Apps unter einem Endpunkt, Health: /healthz)`,
     );
     if (!authToken) {
       console.error("[TheBoringMCP] WARNUNG: Kein MCP_HTTP_TOKEN gesetzt – der Server ist ungeschützt erreichbar!");
